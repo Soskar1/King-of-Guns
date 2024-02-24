@@ -5,21 +5,32 @@ namespace KingOfGuns.Core.Entities
     public class Bullet : Entity
     {
         [SerializeField] private float _lifeTime;
-        private float _timer;
         private ObjectPool<Bullet> _pool;
+        private Timer _timer;
+        private Coroutine _currentTimer;
+
+        protected override void Awake() 
+        {
+            base.Awake();
+            _timer = ServiceLocator.Instance.Get<Timer>();
+        }
 
         public void Initialize(ObjectPool<Bullet> pool) => _pool = pool;
 
-        public void OnEnable() => _timer = _lifeTime;
+        public void OnEnable() => _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
 
-        public void Update()
+        public void Update() => Move(Vector2.right);
+
+        private void OnTriggerEnter2D(Collider2D collider)
         {
-            Move(Vector2.right);
+            if (collider.GetComponent<Player>() != null)
+                return;
 
-            if (_timer <= 0)
-                _pool.Enqueue(this);
-            else
-                _timer -= Time.deltaTime;
+            _timer.StopTimer(_currentTimer);
+            _currentTimer = null;
+            SendToPool();
         }
+
+        private void SendToPool() => _pool.Enqueue(this);
     }
 }
