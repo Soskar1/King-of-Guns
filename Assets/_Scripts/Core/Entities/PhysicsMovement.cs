@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
 {
-    public class PhysicsMovement : MonoBehaviour
+    public class PhysicsMovement : MonoBehaviour, IMovable
     {
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _acceleration;
@@ -14,12 +14,12 @@ namespace KingOfGuns.Core.Entities
 
         private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
-        public void Move(float direction)
+        public void Move(Vector2 direction)
         {
-            float targetVelocity = direction * _maxSpeed;
-            float velocityDifference = targetVelocity - _rigidbody.velocity.x;
-            float accelerationRate = (Mathf.Abs(targetVelocity) > EPSILON) ? _acceleration : _decceleration;
-            float movementX = Mathf.Pow(Mathf.Abs(velocityDifference) * accelerationRate, _velocityPower) * Mathf.Sign(velocityDifference);
+            Vector2 targetVelocity = direction * _maxSpeed;
+            Vector2 velocityDifference = targetVelocity - _rigidbody.velocity;
+            float accelerationRate = (Mathf.Abs(targetVelocity.x) > EPSILON) ? _acceleration : _decceleration;
+            float movementX = Mathf.Pow(Mathf.Abs(velocityDifference.x) * accelerationRate, _velocityPower) * Mathf.Sign(velocityDifference.x);
 
             _rigidbody.AddForce(new Vector2(movementX, _rigidbody.velocity.y));
         }

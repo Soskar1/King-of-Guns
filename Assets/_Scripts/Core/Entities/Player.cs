@@ -1,30 +1,17 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-
 namespace KingOfGuns.Core.Entities
 {
-    public class Player : MonoBehaviour
+    public class Player : Entity
     {
-        private PhysicsMovement _movement;
         private Jumping _jumping;
         private GroundCheck _groundCheck;
-        private Input input;
 
-        private void Awake()
+        public Player(IMovable movement, Jumping jumping, GroundCheck groundCheck) : base(movement)
         {
-            _movement = GetComponent<PhysicsMovement>();
-            _jumping = GetComponent<Jumping>();
-            _groundCheck = GetComponent<GroundCheck>();
-            input = Input.Instance;
+            _jumping = jumping;
+            _groundCheck = groundCheck;
         }
 
-        private void OnEnable() => input.Controls.Player.Jump.performed += Jump;
-        private void OnDisable() => input.Controls.Player.Jump.performed -= Jump;
-
-        public void FixedUpdate() => Move();
-
-        private void Move() => _movement.Move(input.MovementInput);
-        private void Jump(InputAction.CallbackContext context)
+        public void Jump()
         {
             if (_groundCheck.CheckForGround())
                 _jumping.Jump();
