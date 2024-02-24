@@ -164,6 +164,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 7409325085309733099, guid: 6f02a8a2f487eb9448faddd768a50cfc, type: 3}
   _bulletSpawnPoint: {fileID: 3153584988779910508}
   _knockbackForce: 10
+  _reloadTime: 1
 --- !u!1 &4464034292217510477
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,7 +43,11 @@ namespace KingOfGuns.Core.Entities
 
         private void Shoot(InputAction.CallbackContext context)
         {
+            if (_gun.IsReloading)
+                return;
+            
             _gun.Shoot();
+
             Vector2 direction = (_gun.transform.rotation * Vector2.right).normalized;
             float forceX = -direction.x * _gun.KnockbackForce;
             float forceY = -direction.y * _gun.KnockbackForce;

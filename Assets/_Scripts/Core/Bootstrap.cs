@@ -8,6 +8,7 @@ namespace KingOfGuns.Core
         [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPosition;
         [SerializeField] private Spawner _spawner;
+        [SerializeField] private Timer _timer;
 
         private void Awake()
         {
@@ -17,6 +18,7 @@ namespace KingOfGuns.Core
             ServiceLocator serviceLocator = ServiceLocator.Instance;
             serviceLocator.Register(input);
             serviceLocator.Register(_spawner);
+            serviceLocator.Register(_timer);
         }
 
         private void Start() => _spawner.Spawn(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
