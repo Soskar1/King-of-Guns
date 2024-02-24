@@ -1,13 +1,10 @@
 using UnityEngine;
 
-public class Entity
+public class Entity : MonoBehaviour
 {
     private IMovable _movement;
 
-    public Entity(IMovable movement)
-    {
-        _movement = movement;
-    }
+    protected virtual void Awake() => _movement = GetComponent<IMovable>();
 
     public void Move(Vector2 direction) => _movement.Move(direction);
 }

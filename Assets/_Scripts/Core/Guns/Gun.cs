@@ -5,9 +5,12 @@ namespace KingOfGuns.Core.Guns
 {
     public class Gun : MonoBehaviour
     {
-        [SerializeField] private BulletFacade _bulletPrefab;
+        [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _bulletSpawnPoint;
+        [SerializeField] private float _knockbackForce;
         private GunRotation _gunRotation;
+
+        public float KnockbackForce => _knockbackForce;
 
         private void Awake() => _gunRotation = new GunRotation(transform);
 

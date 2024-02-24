@@ -1,9 +1,12 @@
+using UnityEngine;
+
 namespace KingOfGuns.Core.Entities
 {
     public class Bullet : Entity
     {
-        public Bullet(IMovable movement) : base(movement)
+        public void Update()
         {
+            Move(Vector2.right);
         }
     }
 }

@@ -161,8 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee28fb2b616b77f43b7a04ea73ce8c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 2813060056007009901, guid: 6f02a8a2f487eb9448faddd768a50cfc, type: 3}
+  _bulletPrefab: {fileID: 7409325085309733099, guid: 6f02a8a2f487eb9448faddd768a50cfc, type: 3}
   _bulletSpawnPoint: {fileID: 3153584988779910508}
+  _knockbackForce: 1
 --- !u!1 &4464034292217510477
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ namespace KingOfGuns.Core
 {
     public class Bootstrap : MonoBehaviour
     {
-        [SerializeField] private PlayerFacade _playerPrefab;
+        [SerializeField] private Player _playerPrefab;
         [SerializeField] private Transform _playerSpawnPosition;
 
         private void Awake()
