@@ -15,7 +15,7 @@ namespace KingOfGuns.Core.Entities
         protected override void Awake()
         {
             base.Awake();
-            _input = Input.Instance;
+            _input = ServiceLocator.Instance.Get<Input>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _jumping = GetComponent<Jumping>();
             _groundCheck = GetComponent<GroundCheck>();
@@ -44,9 +44,10 @@ namespace KingOfGuns.Core.Entities
         private void Shoot(InputAction.CallbackContext context)
         {
             _gun.Shoot();
-            Vector3 direction = (Vector3.right * (Vector2)_gun.transform.rotation.eulerAngles).normalized;
-            Debug.Log(direction);
-            _rigidbody.AddForce(direction * _gun.KnockbackForce, ForceMode2D.Impulse);
+            Vector2 direction = (_gun.transform.rotation * Vector2.right).normalized;
+            float forceX = -direction.x * _gun.KnockbackForce;
+            float forceY = -direction.y * _gun.KnockbackForce;
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x + forceX, forceY);
         }
     }
 }

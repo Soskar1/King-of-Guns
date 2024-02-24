@@ -9,13 +9,26 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private float _knockbackForce;
         private GunRotation _gunRotation;
+        private Input _input;
+        private ObjectPool<Bullet> _bulletPool;
 
         public float KnockbackForce => _knockbackForce;
 
-        private void Awake() => _gunRotation = new GunRotation(transform);
+        private void Awake()
+        {
+            _bulletPool = new ObjectPool<Bullet>(_bulletPrefab);
+            _input = ServiceLocator.Instance.Get<Input>();
+            _gunRotation = new GunRotation(transform);
+        }
 
-        public void Update() => _gunRotation.LookAt(Input.Instance.WorldMousePosition);
+        public void Update() => _gunRotation.LookAt(_input.WorldMousePosition);
 
-        public void Shoot() => Instantiate(_bulletPrefab, _bulletSpawnPoint.position, transform.rotation);
+        public void Shoot()
+        {
+            Bullet bullet = _bulletPool.Dequeue();
+            bullet.Initialize(_bulletPool); // TODO: remove initialization (same object could be initalized multiple times)
+            bullet.transform.position = _bulletSpawnPoint.position;
+            bullet.transform.rotation = transform.rotation;
+        }
     }
 }

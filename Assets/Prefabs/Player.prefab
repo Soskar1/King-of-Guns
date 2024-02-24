@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 7409325085309733099, guid: 6f02a8a2f487eb9448faddd768a50cfc, type: 3}
   _bulletSpawnPoint: {fileID: 3153584988779910508}
-  _knockbackForce: 1
+  _knockbackForce: 10
 --- !u!1 &4464034292217510477
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -275,7 +275,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &2841996362767033362
 MonoBehaviour:
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ccd5765fad5584fb523b20be6c3907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _force: 4.75
+  _force: 10
 --- !u!114 &-3710497245003725543
 MonoBehaviour:
   m_ObjectHideFlags: 0
