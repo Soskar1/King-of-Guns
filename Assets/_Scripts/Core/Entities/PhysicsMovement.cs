@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace KingOfGuns.Core
+namespace KingOfGuns.Core.Entities
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PhysicsMovement : MonoBehaviour
     {
         [SerializeField] private float _maxSpeed;
         [SerializeField] private float _acceleration;
