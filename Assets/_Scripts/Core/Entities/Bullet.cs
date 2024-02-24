@@ -26,6 +26,9 @@ namespace KingOfGuns.Core.Entities
             if (collider.GetComponent<Player>() != null)
                 return;
 
+            if (collider.GetComponent<Bullet>() != null)
+                return;
+
             _timer.StopTimer(_currentTimer);
             _currentTimer = null;
             SendToPool();

@@ -9,6 +9,11 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private float _knockbackForce;
         [SerializeField] private float _reloadTime;
+
+        [SerializeField] [Range(1, 5)] private int _bulletCount;
+        [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
+        [SerializeField] [Range(0, 45.0f)] private float _maxSpreadAngle;
+
         private GunRotation _gunRotation;
         private Input _input;
         private Timer _timer;
@@ -30,13 +35,21 @@ namespace KingOfGuns.Core.Guns
 
         public void Shoot()
         {
-            Bullet bullet = _bulletPool.Dequeue();
-            bullet.Initialize(_bulletPool); // TODO: remove initialization (same object could be initalized multiple times)
-            bullet.transform.position = _bulletSpawnPoint.position;
-            bullet.transform.rotation = transform.rotation;
+            for (int i = 0; i <  _bulletCount; ++i)
+            {
+                Bullet bullet = _bulletPool.Dequeue();
+                bullet.Initialize(_bulletPool); // TODO: remove initialization (same object could be initalized multiple times)
+                bullet.transform.position = _bulletSpawnPoint.position;
+
+                float spread = Random.Range(_minSpreadAngle, _maxSpreadAngle);
+                //bullet.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + spread);
+                bullet.transform.rotation = transform.rotation;
+                bullet.transform.Rotate(0, 0, spread);
+            }
             
             _isReloading = true;
-            _timer.StartTimer(_reloadTime, () => { _isReloading = false; });
+            Debug.Log("Reloading...");
+            _timer.StartTimer(_reloadTime, () => { Debug.Log("Reloaded");  _isReloading = false; });
         }
     }
 }

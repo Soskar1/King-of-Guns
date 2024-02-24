@@ -165,6 +165,9 @@ MonoBehaviour:
   _bulletSpawnPoint: {fileID: 3153584988779910508}
   _knockbackForce: 10
   _reloadTime: 1
+  _bulletCount: 4
+  _minSpreadAngle: -15
+  _maxSpreadAngle: 15
 --- !u!1 &4464034292217510477
 GameObject:
   m_ObjectHideFlags: 0
