@@ -7,9 +7,10 @@ namespace KingOfGuns.Core.Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Jumping))]
-    public class Player : Entity
+    public class Player : Entity, IReloadable
     {
         [SerializeField] private Gun _gun;
+        private Transform _currentSpawnPoint;
         private Rigidbody2D _rigidbody;
         private Input _input;
         private Jumping _jumping;
@@ -35,6 +36,8 @@ namespace KingOfGuns.Core.Entities
         }
 
         public void FixedUpdate() => Move(Vector2.right * _input.MovementInput);
+
+        public void SetSpawnPoint(Transform spawnPoint) => _currentSpawnPoint = spawnPoint;
 
         private void Jump(InputAction.CallbackContext context) => _jumping.Jump();
 
@@ -62,6 +65,14 @@ namespace KingOfGuns.Core.Entities
                 shotgunShell.Deactivate();
                 _gun.InstantReloading();
             }
+        }
+
+        public void Reload()
+        {
+            _rigidbody.velocity = Vector2.zero;
+            transform.position = _currentSpawnPoint.position;
+            _gun.InstantReloading();
+            _jumping.ReturnToInitialState();
         }
     }
 }

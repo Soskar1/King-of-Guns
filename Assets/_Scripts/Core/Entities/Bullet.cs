@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
 {
-    public class Bullet : Entity
+    public class Bullet : Entity, IReloadable
     {
         [SerializeField] private float _lifeTime;
         private ObjectPool<Bullet> _pool;
@@ -29,11 +29,19 @@ namespace KingOfGuns.Core.Entities
             if (collider.GetComponent<Bullet>() != null)
                 return;
 
+            Reload();
+        }
+
+        private void SendToPool() => _pool.Enqueue(this);
+
+        public void Reload()
+        {
+            if (_currentTimer == null)
+                return;
+
             _timer.StopTimer(_currentTimer);
             _currentTimer = null;
             SendToPool();
         }
-
-        private void SendToPool() => _pool.Enqueue(this);
     }
 }

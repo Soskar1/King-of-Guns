@@ -29,7 +29,7 @@ namespace KingOfGuns.Core
             if (_pool.Count > 0)
                 obj = _pool.Dequeue();
             else
-                obj = (T)_spawner.Spawn(_prefab);
+                obj = _spawner.Spawn<T>(_prefab);
 
             obj.gameObject.SetActive(true);
             return obj;

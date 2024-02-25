@@ -25,6 +25,8 @@ namespace KingOfGuns.Core.Entities
             _jumped = !_groundCheck.CheckForGround();
         }
 
+        public void ReturnToInitialState() => _jumped = false;
+
         public void Jump()
         {
             if (_jumped)
