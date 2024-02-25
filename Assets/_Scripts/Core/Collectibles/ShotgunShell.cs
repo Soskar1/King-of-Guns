@@ -2,11 +2,26 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Collectibles
 {
-    public class ShotgunShell : MonoBehaviour, ICollectible
+    public class ShotgunShell : MonoBehaviour
     {
-        public void Collect()
+        [SerializeField] private SpriteRenderer _visual;
+        [SerializeField] private Collider2D _trigger;
+        [SerializeField] private float _deactivatedStateTimer;
+        private Timer _timer;
+
+        private void Start() => _timer = ServiceLocator.Instance.Get<Timer>();
+
+        public void Deactivate()
         {
-            throw new System.NotImplementedException();
+            _visual.enabled = false;
+            _trigger.enabled = false;
+            _timer.StartTimer(_deactivatedStateTimer, Activate);
+        }
+
+        private void Activate()
+        {
+            _visual.enabled = true;
+            _trigger.enabled = true;
         }
     }
 }

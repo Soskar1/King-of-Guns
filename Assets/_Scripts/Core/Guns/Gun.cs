@@ -16,9 +16,11 @@ namespace KingOfGuns.Core.Guns
 
         private GunRotation _gunRotation;
         private Input _input;
-        private Timer _timer;
         private ObjectPool<Bullet> _bulletPool;
+
+        private Timer _timer;
         private bool _isReloading = false;
+        private Coroutine _currentReloadTimer = null;
 
         public float KnockbackForce => _knockbackForce;
         public bool IsReloading => _isReloading;
@@ -42,14 +44,28 @@ namespace KingOfGuns.Core.Guns
                 bullet.transform.position = _bulletSpawnPoint.position;
 
                 float spread = Random.Range(_minSpreadAngle, _maxSpreadAngle);
-                //bullet.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + spread);
                 bullet.transform.rotation = transform.rotation;
                 bullet.transform.Rotate(0, 0, spread);
             }
-            
+
+            StartReloading();
+        }
+
+        private void StartReloading()
+        {
             _isReloading = true;
             Debug.Log("Reloading...");
-            _timer.StartTimer(_reloadTime, () => { Debug.Log("Reloaded");  _isReloading = false; });
+            _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Debug.Log("Reloaded"); _isReloading = false; });
+        }
+
+        public void InstantReloading()
+        {
+            if (_currentReloadTimer != null)
+                _timer.StopTimer(_currentReloadTimer);
+
+            _currentReloadTimer = null;
+            _isReloading = false;
+            Debug.Log("Reloaded instantly");
         }
     }
 }
