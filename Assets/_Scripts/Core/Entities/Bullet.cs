@@ -1,3 +1,4 @@
+using KingOfGuns.Core.Collectibles;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
@@ -27,6 +28,9 @@ namespace KingOfGuns.Core.Entities
                 return;
 
             if (collider.GetComponent<Bullet>() != null)
+                return;
+
+            if (collider.GetComponent<ShotgunShell>() != null)
                 return;
 
             Reload();

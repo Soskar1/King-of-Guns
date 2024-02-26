@@ -166,8 +166,8 @@ MonoBehaviour:
   _knockbackForce: 10
   _reloadTime: 1
   _bulletCount: 4
-  _minSpreadAngle: -15
-  _maxSpreadAngle: 15
+  _minSpreadAngle: -10
+  _maxSpreadAngle: 10
 --- !u!1 &4464034292217510477
 GameObject:
   m_ObjectHideFlags: 0
