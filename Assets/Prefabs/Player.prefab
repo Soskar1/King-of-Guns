@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _force: 13
+  _minYVelocity: -20
 --- !u!114 &-4447116491323863000
 MonoBehaviour:
   m_ObjectHideFlags: 0
