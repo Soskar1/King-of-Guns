@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core
 {
-    public class CameraMovement : MonoBehaviour
+    public class CameraMovement : MonoBehaviour, IReloadable
     {
         [SerializeField] private BoxCollider2D _rightBorderCollider;
         [SerializeField] private BoxCollider2D _upBorderCollider;
@@ -44,9 +44,8 @@ namespace KingOfGuns.Core
             _downBorder.Subscribe(() => MoveCamera(Vector2.down));
         }
 
-        private void MoveCamera(Vector2 direction)
-        {
-            transform.position += new Vector3(direction.x * _width, direction.y * _height, 0);
-        }
+        private void MoveCamera(Vector2 direction) => transform.position += new Vector3(direction.x * _width, direction.y * _height, 0);
+
+        public void Reload() => transform.position = new Vector3(0, 0, -10);
     }
 }

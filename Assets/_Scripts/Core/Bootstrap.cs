@@ -36,6 +36,8 @@ namespace KingOfGuns.Core
             serviceLocator.Register(_spawner);
             serviceLocator.Register(_timer);
             serviceLocator.Register(_level);
+
+            _level.Register(Camera.main.GetComponent<CameraMovement>());
         }
 
         private void Start()
