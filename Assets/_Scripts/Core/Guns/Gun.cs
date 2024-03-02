@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Guns
 {
+    [RequireComponent(typeof(Flipping))]
     public class Gun : MonoBehaviour
     {
         [SerializeField] private Bullet _bulletPrefab;
@@ -14,6 +15,7 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
         [SerializeField] [Range(0, 45.0f)] private float _maxSpreadAngle;
 
+        private Flipping _flipping;
         private GunRotation _gunRotation;
         private Input _input;
         private ObjectPool<Bullet> _bulletPool;
@@ -31,9 +33,18 @@ namespace KingOfGuns.Core.Guns
             _input = ServiceLocator.Instance.Get<Input>();
             _timer = ServiceLocator.Instance.Get<Timer>();
             _gunRotation = new GunRotation(transform);
+            _flipping = GetComponent<Flipping>();
         }
 
-        public void Update() => _gunRotation.LookAt(_input.WorldMousePosition);
+        public void Update()
+        {
+            float rotZ = transform.rotation.eulerAngles.z;
+            if ((_flipping.FacingRight && rotZ > 90.0f && rotZ < 270.0f) ||
+                (!_flipping.FacingRight && (rotZ < 90.0f || rotZ > 270.0f)))
+                _flipping.Flip();
+
+            _gunRotation.LookAt(_input.WorldMousePosition);
+        }
 
         public void Shoot()
         {

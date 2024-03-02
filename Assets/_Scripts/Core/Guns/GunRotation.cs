@@ -12,7 +12,7 @@ namespace KingOfGuns.Core.Guns
         {
             Vector2 diff = point - (Vector2)_transform.position;
             float rotZ = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-            _transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotZ));
+            _transform.rotation = Quaternion.Euler(new Vector3(_transform.rotation.x, _transform.rotation.y, rotZ));
         }
     }
 }

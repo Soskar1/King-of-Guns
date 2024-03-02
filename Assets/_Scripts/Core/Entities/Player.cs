@@ -7,6 +7,7 @@ namespace KingOfGuns.Core.Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Jumping))]
+    [RequireComponent(typeof(Flipping))]
     public class Player : Entity, IReloadable
     {
         [SerializeField] private Gun _gun;
@@ -14,6 +15,7 @@ namespace KingOfGuns.Core.Entities
         private Rigidbody2D _rigidbody;
         private Input _input;
         private Jumping _jumping;
+        private Flipping _flipping;
 
         protected override void Awake()
         {
@@ -21,6 +23,7 @@ namespace KingOfGuns.Core.Entities
             _input = ServiceLocator.Instance.Get<Input>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _jumping = GetComponent<Jumping>();
+            _flipping = GetComponent<Flipping>();
         }
 
         private void OnEnable()
@@ -35,7 +38,14 @@ namespace KingOfGuns.Core.Entities
             _input.Controls.Player.Shoot.performed -= Shoot;
         }
 
-        public void FixedUpdate() => Move(Vector2.right * _input.MovementInput);
+        public void FixedUpdate()
+        {
+            if ((_flipping.FacingRight && _input.MovementInput < 0) ||
+                (!_flipping.FacingRight && _input.MovementInput > 0))
+                _flipping.Flip();
+
+            Move(Vector2.right * _input.MovementInput);
+        }
 
         public void SetSpawnPoint(Transform spawnPoint) => _currentSpawnPoint = spawnPoint;
 
