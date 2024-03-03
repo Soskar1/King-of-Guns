@@ -57,7 +57,9 @@ namespace KingOfGuns.Core.Entities
                 return;
             
             _gun.Shoot();
-            ApplyKnockback();
+
+            if (!_gun.IsReloading)
+                ApplyKnockback();
         }
 
         private void ApplyKnockback()
@@ -73,7 +75,7 @@ namespace KingOfGuns.Core.Entities
             if (collision.TryGetComponent(out ShotgunShell shotgunShell))
             {
                 shotgunShell.Deactivate();
-                _gun.InstantReload();
+                _gun.InstantReload(1);
             }
         }
 
@@ -81,7 +83,7 @@ namespace KingOfGuns.Core.Entities
         {
             _rigidbody.velocity = Vector2.zero;
             transform.position = _currentSpawnPoint.position;
-            _gun.InstantReload();
+            _gun.InstantReload(_gun.MaxAmmo);
             _jumping.ReturnToInitialState();
         }
     }

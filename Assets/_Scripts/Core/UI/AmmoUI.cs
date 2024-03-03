@@ -26,12 +26,19 @@ namespace KingOfGuns.Core.UI
             _ammo[index].enabled = false;
         }
 
-        public void ShowAmmo(int index)
+        public void ShowAmmo(int amountOfAmmoToShow)
         {
             if (_ammo.Count <= 0)
                 return;
 
-            _ammo[index].enabled = true;
+            int displayed = 0;
+            foreach (Image image in _ammo)
+            {
+                if (!image.enabled && displayed < amountOfAmmoToShow) { 
+                    image.enabled = true;
+                    ++displayed;
+                }
+            }
         }
     }
 }

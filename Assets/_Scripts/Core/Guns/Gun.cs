@@ -11,6 +11,8 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private float _knockbackForce;
         [SerializeField] private float _reloadTime;
+        [SerializeField] private int _maxAmmo;
+        private int _ammoLeft;
 
         [SerializeField] [Range(1, 5)] private int _bulletCount;
         [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
@@ -29,6 +31,7 @@ namespace KingOfGuns.Core.Guns
 
         public float KnockbackForce => _knockbackForce;
         public bool IsReloading => _isReloading;
+        public int MaxAmmo => _maxAmmo;
 
         private void Awake()
         {
@@ -40,9 +43,14 @@ namespace KingOfGuns.Core.Guns
             _ammoUI = ServiceLocator.Instance.Get<AmmoUI>();
             
             _flipping = GetComponent<Flipping>();
+            _ammoLeft = _maxAmmo;
         }
 
-        private void Start() => _ammoUI.AddAmmo();
+        private void Start()
+        {
+            for (int i = _maxAmmo; i > 0; --i)
+                _ammoUI.AddAmmo();
+        }
 
         public void Update()
         {
@@ -56,6 +64,13 @@ namespace KingOfGuns.Core.Guns
 
         public void Shoot()
         {
+            if (_ammoLeft <= 0 && !_isReloading)
+            {
+                Debug.Log("Reloading...");
+                StartReloading();
+                return;
+            } 
+
             for (int i = 0; i <  _bulletCount; ++i)
             {
                 Bullet bullet = _bulletPool.Dequeue();
@@ -67,29 +82,30 @@ namespace KingOfGuns.Core.Guns
                 bullet.transform.Rotate(0, 0, spread);
             }
 
-            StartReloading();
-            _ammoUI.HideAmmo(0); // TODO: remove hardcoded value
+            --_ammoLeft;
+            _ammoUI.HideAmmo(_ammoLeft);
         }
 
         private void StartReloading()
         {
             _isReloading = true;
-            _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(); });
+            _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
         }
 
-        public void InstantReload()
+        public void InstantReload(int amountToReload)
         {
             if (_currentReloadTimer != null)
                 _timer.StopTimer(_currentReloadTimer);
 
-            Reload();
+            Reload(amountToReload);
         }
 
-        private void Reload()
+        private void Reload(int amountToReload)
         {
+            _ammoLeft = _maxAmmo;
             _currentReloadTimer = null;
             _isReloading = false;
-            _ammoUI.ShowAmmo(0);
+            _ammoUI.ShowAmmo(amountToReload);
         }
     }
 }
