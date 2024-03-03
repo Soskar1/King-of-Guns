@@ -1,4 +1,5 @@
 using KingOfGuns.Core.Entities;
+using KingOfGuns.Core.UI;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Guns
@@ -24,17 +25,24 @@ namespace KingOfGuns.Core.Guns
         private bool _isReloading = false;
         private Coroutine _currentReloadTimer = null;
 
+        private AmmoUI _ammoUI;
+
         public float KnockbackForce => _knockbackForce;
         public bool IsReloading => _isReloading;
 
         private void Awake()
         {
             _bulletPool = new ObjectPool<Bullet>(_bulletPrefab);
+            _gunRotation = new GunRotation(transform);
+            
             _input = ServiceLocator.Instance.Get<Input>();
             _timer = ServiceLocator.Instance.Get<Timer>();
-            _gunRotation = new GunRotation(transform);
+            _ammoUI = ServiceLocator.Instance.Get<AmmoUI>();
+            
             _flipping = GetComponent<Flipping>();
         }
+
+        private void Start() => _ammoUI.AddAmmo();
 
         public void Update()
         {
@@ -60,23 +68,28 @@ namespace KingOfGuns.Core.Guns
             }
 
             StartReloading();
+            _ammoUI.HideAmmo(0); // TODO: remove hardcoded value
         }
 
         private void StartReloading()
         {
             _isReloading = true;
-            Debug.Log("Reloading...");
-            _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Debug.Log("Reloaded"); _isReloading = false; });
+            _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(); });
         }
 
-        public void InstantReloading()
+        public void InstantReload()
         {
             if (_currentReloadTimer != null)
                 _timer.StopTimer(_currentReloadTimer);
 
+            Reload();
+        }
+
+        private void Reload()
+        {
             _currentReloadTimer = null;
             _isReloading = false;
-            Debug.Log("Reloaded instantly");
+            _ammoUI.ShowAmmo(0);
         }
     }
 }

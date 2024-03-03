@@ -1,4 +1,5 @@
 using KingOfGuns.Core.Entities;
+using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,7 @@ namespace KingOfGuns.Core
         [SerializeField] private Transform _playerSpawnPosition;
         [SerializeField] private Spawner _spawner;
         [SerializeField] private Timer _timer;
+        [SerializeField] private AmmoUI _ammoUI;
         private Level _level;
         private Input _input;
 
@@ -36,6 +38,7 @@ namespace KingOfGuns.Core
             serviceLocator.Register(_spawner);
             serviceLocator.Register(_timer);
             serviceLocator.Register(_level);
+            serviceLocator.Register(_ammoUI);
 
             _level.Register(Camera.main.GetComponent<CameraMovement>());
         }

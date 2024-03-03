@@ -73,7 +73,7 @@ namespace KingOfGuns.Core.Entities
             if (collision.TryGetComponent(out ShotgunShell shotgunShell))
             {
                 shotgunShell.Deactivate();
-                _gun.InstantReloading();
+                _gun.InstantReload();
             }
         }
 
@@ -81,7 +81,7 @@ namespace KingOfGuns.Core.Entities
         {
             _rigidbody.velocity = Vector2.zero;
             transform.position = _currentSpawnPoint.position;
-            _gun.InstantReloading();
+            _gun.InstantReload();
             _jumping.ReturnToInitialState();
         }
     }

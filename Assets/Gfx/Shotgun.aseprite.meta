@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7bfd3117de51caf4293e2e3bf28d161a
+guid: 0d06dbe3cd0da914ca90585e0623291a
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -35,7 +35,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 32
+    spritePixelsToUnits: 16
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -97,7 +97,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638443809133630520
+  platformSettingsDirtyTick: 638449317590836759
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -123,16 +123,16 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Shotgun
     originalName: 
-    pivot: {x: 0.5, y: 0.6666667}
+    pivot: {x: 0.5, y: 0.5714286}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 24
-      height: 12
-    spriteID: 2e24e1dbe7cd0d645877b5a812efcb51
+      width: 16
+      height: 7
+    spriteID: 2fc8befd9602163468f2657a87996d53
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -153,11 +153,11 @@ ScriptedImporter:
     - name: Shotgun
       frameIndex: 0
       cellRect:
-        x: 4
-        y: 8
-        width: 24
-        height: 12
-      spriteId: 2e24e1dbe7cd0d645877b5a812efcb51
+        x: 0
+        y: 4
+        width: 16
+        height: 7
+      spriteId: 2fc8befd9602163468f2657a87996d53
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -188,4 +188,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 32, y: 32}
+  canvasSize: {x: 16, y: 16}
