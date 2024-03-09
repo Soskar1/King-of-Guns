@@ -8,7 +8,8 @@ namespace KingOfGuns.Core
         [SerializeField] private BoxCollider2D _upBorderCollider;
         [SerializeField] private BoxCollider2D _leftBorderCollider;
         [SerializeField] private BoxCollider2D _downBorderCollider;
-        [SerializeField] private float _offset;
+        [SerializeField] private float _positionOffset;
+        [SerializeField] private float _sizeOffset;
 
         [SerializeField] private CameraPlayerDetection _rightBorder;
         [SerializeField] private CameraPlayerDetection _upBorder;
@@ -26,17 +27,17 @@ namespace KingOfGuns.Core
             _height = 2f * _camera.orthographicSize;
             _width = _height * _camera.aspect;
 
-            _rightBorderCollider.offset = new Vector2(_width / 2 + _offset, 0);
-            _rightBorderCollider.size = new Vector2(1, _height);
+            _rightBorderCollider.offset = new Vector2(_width / 2 + _positionOffset, 0);
+            _rightBorderCollider.size = new Vector2(1, _height + _sizeOffset);
 
-            _upBorderCollider.offset = new Vector2(0, _height / 2 + _offset);
-            _upBorderCollider.size = new Vector2(_width, 1);
+            _upBorderCollider.offset = new Vector2(0, _height / 2 + _positionOffset);
+            _upBorderCollider.size = new Vector2(_width + _sizeOffset, 1);
 
-            _leftBorderCollider.offset = new Vector2(-_width / 2 - _offset, 0);
-            _leftBorderCollider.size = new Vector2(1, _height);
+            _leftBorderCollider.offset = new Vector2(-_width / 2 - _positionOffset, 0);
+            _leftBorderCollider.size = new Vector2(1, _height + _sizeOffset);
 
-            _downBorderCollider.offset = new Vector2(0, -_height / 2 - _offset);
-            _downBorderCollider.size = new Vector2(_width, 1);
+            _downBorderCollider.offset = new Vector2(0, -_height / 2 - _positionOffset);
+            _downBorderCollider.size = new Vector2(_width + _sizeOffset, 1);
 
             _rightBorder.Subscribe(() => MoveCamera(Vector2.right));
             _upBorder.Subscribe(() => MoveCamera(Vector2.up));

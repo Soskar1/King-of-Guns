@@ -17,11 +17,11 @@ namespace KingOfGuns.Core.Entities
         public void Move(Vector2 direction)
         {
             Vector2 targetVelocity = direction * _maxSpeed;
-            Vector2 velocityDifference = targetVelocity - _rigidbody.velocity;
+            float velocityDifference = targetVelocity.x - _rigidbody.velocity.x;
             float accelerationRate = (Mathf.Abs(targetVelocity.x) > EPSILON) ? _acceleration : _decceleration;
-            float movementX = Mathf.Pow(Mathf.Abs(velocityDifference.x) * accelerationRate, _velocityPower) * Mathf.Sign(velocityDifference.x);
+            float movementX = Mathf.Pow(Mathf.Abs(velocityDifference) * accelerationRate, _velocityPower) * Mathf.Sign(velocityDifference);
 
-            _rigidbody.AddForce(new Vector2(movementX, _rigidbody.velocity.y));
+            _rigidbody.AddForce(new Vector2(movementX, 0));
         }
     }
 }
