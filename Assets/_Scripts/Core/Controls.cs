@@ -62,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GunReload"",
+                    ""type"": ""Button"",
+                    ""id"": ""8980bd10-deb8-4ba6-b577-4b3d3f1f5294"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,11 +132,22 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""328a718a-ebf9-48a2-85fd-d7d46e223fbd"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/g"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""LevelReload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5dc1fec6-c0f6-4d19-ae63-ee8f5d002d60"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GunReload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -159,6 +179,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_LevelReload = m_Player.FindAction("LevelReload", throwIfNotFound: true);
+        m_Player_GunReload = m_Player.FindAction("GunReload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -224,6 +245,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_LevelReload;
+    private readonly InputAction m_Player_GunReload;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -232,6 +254,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @LevelReload => m_Wrapper.m_Player_LevelReload;
+        public InputAction @GunReload => m_Wrapper.m_Player_GunReload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -253,6 +276,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @LevelReload.started += instance.OnLevelReload;
             @LevelReload.performed += instance.OnLevelReload;
             @LevelReload.canceled += instance.OnLevelReload;
+            @GunReload.started += instance.OnGunReload;
+            @GunReload.performed += instance.OnGunReload;
+            @GunReload.canceled += instance.OnGunReload;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -269,6 +295,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @LevelReload.started -= instance.OnLevelReload;
             @LevelReload.performed -= instance.OnLevelReload;
             @LevelReload.canceled -= instance.OnLevelReload;
+            @GunReload.started -= instance.OnGunReload;
+            @GunReload.performed -= instance.OnGunReload;
+            @GunReload.canceled -= instance.OnGunReload;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -301,5 +330,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnLevelReload(InputAction.CallbackContext context);
+        void OnGunReload(InputAction.CallbackContext context);
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a164fbbe88245b343b4d8fe6a3f682a4
+guid: 9274fd8c2ca4aaa4384fee41abd72af0
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638449317328579700
+  platformSettingsDirtyTick: 638455789923497977
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Character
+  - name: Dirt2
     originalName: 
-    pivot: {x: 0.5, y: 0.53333336}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 8
-      height: 15
-    spriteID: 44a57d972ff789f48b6fa863ac65a28a
+      width: 16
+      height: 16
+    spriteID: 712120a73628afa4a9300a964fa8de4d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,20 +144,20 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1246400679
-    name: Character
+    guid: 1358133029
+    name: Dirt2
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Character
+    - name: Dirt2
       frameIndex: 0
       cellRect:
-        x: 4
+        x: 0
         y: 0
-        width: 8
-        height: 15
-      spriteId: 44a57d972ff789f48b6fa863ac65a28a
+        width: 16
+        height: 16
+      spriteId: 712120a73628afa4a9300a964fa8de4d
     linkedCells: []
     parentIndex: -1
   platformSettings:

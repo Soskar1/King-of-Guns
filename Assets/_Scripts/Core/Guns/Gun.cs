@@ -32,6 +32,7 @@ namespace KingOfGuns.Core.Guns
         public float KnockbackForce => _knockbackForce;
         public bool IsReloading => _isReloading;
         public int MaxAmmo => _maxAmmo;
+        public bool IsFull => _ammoLeft == _maxAmmo;
 
         private void Awake()
         {
@@ -66,7 +67,6 @@ namespace KingOfGuns.Core.Guns
         {
             if (_ammoLeft <= 0 && !_isReloading)
             {
-                Debug.Log("Reloading...");
                 StartReloading();
                 return;
             } 
@@ -86,8 +86,12 @@ namespace KingOfGuns.Core.Guns
             _ammoUI.HideAmmo(_ammoLeft);
         }
 
-        private void StartReloading()
+        public void StartReloading()
         {
+            if (IsFull || _isReloading)
+                return;
+
+            Debug.Log("Reloading...");
             _isReloading = true;
             _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
         }
@@ -102,7 +106,10 @@ namespace KingOfGuns.Core.Guns
 
         private void Reload(int amountToReload)
         {
-            _ammoLeft = _maxAmmo;
+            _ammoLeft += amountToReload;
+            if (_ammoLeft > _maxAmmo)
+                _ammoLeft = _maxAmmo;
+
             _currentReloadTimer = null;
             _isReloading = false;
             _ammoUI.ShowAmmo(amountToReload);

@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GunReload",
+                    "type": "Button",
+                    "id": "8980bd10-deb8-4ba6-b577-4b3d3f1f5294",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -101,11 +110,22 @@
                 {
                     "name": "",
                     "id": "328a718a-ebf9-48a2-85fd-d7d46e223fbd",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
                     "action": "LevelReload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5dc1fec6-c0f6-4d19-ae63-ee8f5d002d60",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GunReload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

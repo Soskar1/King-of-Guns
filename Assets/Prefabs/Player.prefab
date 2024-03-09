@@ -81,8 +81,8 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 7409325085309733099, guid: 6f02a8a2f487eb9448faddd768a50cfc, type: 3}
   _bulletSpawnPoint: {fileID: 3153584988779910508}
   _knockbackForce: 10
-  _reloadTime: 2.5
-  _maxAmmo: 5
+  _reloadTime: 1.25
+  _maxAmmo: 1
   _bulletCount: 4
   _minSpreadAngle: -10
   _maxSpreadAngle: 10

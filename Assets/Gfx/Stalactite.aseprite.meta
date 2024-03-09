@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a164fbbe88245b343b4d8fe6a3f682a4
+guid: 21e7ec466b0bd2743810101a75089c27
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638449317328579700
+  platformSettingsDirtyTick: 638455772348667421
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,9 +121,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Character
+  - name: Stalactite
     originalName: 
-    pivot: {x: 0.5, y: 0.53333336}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -131,8 +131,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 8
-      height: 15
-    spriteID: 44a57d972ff789f48b6fa863ac65a28a
+      height: 16
+    spriteID: fc6205fbb47a2d24194396d720320316
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,20 +144,20 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1246400679
-    name: Character
+    guid: -2038021168
+    name: Stalactite
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Character
+    - name: Stalactite
       frameIndex: 0
       cellRect:
         x: 4
         y: 0
         width: 8
-        height: 15
-      spriteId: 44a57d972ff789f48b6fa863ac65a28a
+        height: 16
+      spriteId: fc6205fbb47a2d24194396d720320316
     linkedCells: []
     parentIndex: -1
   platformSettings:

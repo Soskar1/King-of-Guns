@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Level Design
+    uniqueID: 811302647
+    locked: 0
   - name: Player
     uniqueID: 2050929661
     locked: 0

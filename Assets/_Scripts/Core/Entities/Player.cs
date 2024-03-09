@@ -30,12 +30,14 @@ namespace KingOfGuns.Core.Entities
         {
             _input.Controls.Player.Jump.performed += Jump;
             _input.Controls.Player.Shoot.performed += Shoot;
+            _input.Controls.Player.GunReload.performed += ReloadGun;
         }
 
         private void OnDisable()
         {
             _input.Controls.Player.Jump.performed -= Jump;
             _input.Controls.Player.Shoot.performed -= Shoot;
+            _input.Controls.Player.GunReload.performed -= ReloadGun;
         }
 
         public void FixedUpdate()
@@ -61,6 +63,8 @@ namespace KingOfGuns.Core.Entities
             if (!_gun.IsReloading)
                 ApplyKnockback();
         }
+
+        private void ReloadGun(InputAction.CallbackContext context) => _gun.StartReloading();
 
         private void ApplyKnockback()
         {
