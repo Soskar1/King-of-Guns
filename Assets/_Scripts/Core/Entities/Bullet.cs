@@ -18,7 +18,11 @@ namespace KingOfGuns.Core.Entities
             _trailRenderer = GetComponentInChildren<TrailRenderer>();
         }
 
-        public void Initialize(ObjectPool<Bullet> pool) => _pool = pool;
+        public void Initialize(ObjectPool<Bullet> pool)
+        {
+            if (_pool == null)
+                _pool = pool;
+        }
 
         public void OnEnable() => _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
         

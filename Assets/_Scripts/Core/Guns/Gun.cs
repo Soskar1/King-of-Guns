@@ -19,6 +19,8 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
         [SerializeField] [Range(0, 45.0f)] private float _maxSpreadAngle;
 
+        [SerializeField] private GameObject _reloadText;
+
         private Flipping _flipping;
         private GunRotation _gunRotation;
         private Input _input;
@@ -83,7 +85,7 @@ namespace KingOfGuns.Core.Guns
             for (int i = 0; i <  _bulletCount; ++i)
             {
                 Bullet bullet = _bulletPool.Dequeue();
-                bullet.Initialize(_bulletPool); // TODO: remove initialization (same object could be initalized multiple times)
+                bullet.Initialize(_bulletPool);
                 bullet.transform.position = _bulletSpawnPoint.position;
 
                 float spread = Random.Range(_minSpreadAngle, _maxSpreadAngle);
@@ -93,6 +95,9 @@ namespace KingOfGuns.Core.Guns
 
             --_ammoLeft;
             _ammoUI.HideAmmo(_ammoLeft);
+
+            if (_ammoLeft == 0)
+                _reloadText.SetActive(true);
         }
 
         public void StartReloading()
@@ -101,6 +106,7 @@ namespace KingOfGuns.Core.Guns
                 return;
 
             Debug.Log("Reloading...");
+            _reloadText.SetActive(false);
             _animator.SetTrigger(_RELOAD_TRIGGER);
             _isReloading = true;
             _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
