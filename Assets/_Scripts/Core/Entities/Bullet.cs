@@ -9,11 +9,13 @@ namespace KingOfGuns.Core.Entities
         private ObjectPool<Bullet> _pool;
         private Timer _timer;
         private Coroutine _currentTimer;
+        private TrailRenderer _trailRenderer;
 
         protected override void Awake() 
         {
             base.Awake();
             _timer = ServiceLocator.Instance.Get<Timer>();
+            _trailRenderer = GetComponentInChildren<TrailRenderer>();
         }
 
         public void Initialize(ObjectPool<Bullet> pool) => _pool = pool;
@@ -45,6 +47,7 @@ namespace KingOfGuns.Core.Entities
 
             _timer.StopTimer(_currentTimer);
             _currentTimer = null;
+            _trailRenderer.Clear();
             SendToPool();
         }
     }
