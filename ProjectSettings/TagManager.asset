@@ -44,6 +44,9 @@ TagManager:
   - name: Level Design
     uniqueID: 811302647
     locked: 0
+  - name: Effects
+    uniqueID: 1336133599
+    locked: 0
   - name: Player
     uniqueID: 2050929661
     locked: 0

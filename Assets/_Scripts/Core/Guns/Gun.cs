@@ -5,6 +5,7 @@ using UnityEngine;
 namespace KingOfGuns.Core.Guns
 {
     [RequireComponent(typeof(Flipping))]
+    [RequireComponent(typeof(Animator))]
     public class Gun : MonoBehaviour
     {
         [SerializeField] private Bullet _bulletPrefab;
@@ -29,6 +30,11 @@ namespace KingOfGuns.Core.Guns
 
         private AmmoUI _ammoUI;
 
+        private Animator _animator;
+        private AnimationClip _reloadingAnimationClip;
+        private const string _SHOOT_TRIGGER = "Shoot";
+        private const string _RELOAD_TRIGGER = "Reload";
+
         public float KnockbackForce => _knockbackForce;
         public bool IsReloading => _isReloading;
         public int MaxAmmo => _maxAmmo;
@@ -44,6 +50,8 @@ namespace KingOfGuns.Core.Guns
             _ammoUI = ServiceLocator.Instance.Get<AmmoUI>();
             
             _flipping = GetComponent<Flipping>();
+            _animator = GetComponent<Animator>();
+
             _ammoLeft = _maxAmmo;
         }
 
@@ -69,8 +77,9 @@ namespace KingOfGuns.Core.Guns
             {
                 StartReloading();
                 return;
-            } 
+            }
 
+            _animator.SetTrigger(_SHOOT_TRIGGER);
             for (int i = 0; i <  _bulletCount; ++i)
             {
                 Bullet bullet = _bulletPool.Dequeue();
@@ -92,6 +101,7 @@ namespace KingOfGuns.Core.Guns
                 return;
 
             Debug.Log("Reloading...");
+            _animator.SetTrigger(_RELOAD_TRIGGER);
             _isReloading = true;
             _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
         }

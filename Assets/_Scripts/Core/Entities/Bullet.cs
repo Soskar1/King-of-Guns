@@ -19,7 +19,7 @@ namespace KingOfGuns.Core.Entities
         public void Initialize(ObjectPool<Bullet> pool) => _pool = pool;
 
         public void OnEnable() => _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
-
+        
         public void Update() => Move(Vector2.right);
 
         private void OnTriggerEnter2D(Collider2D collider)
