@@ -1,4 +1,5 @@
 using KingOfGuns.Core.Entities;
+using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -41,6 +42,8 @@ namespace KingOfGuns.Core
             serviceLocator.Register(_ammoUI);
 
             _level.Register(Camera.main.GetComponent<CameraMovement>());
+
+            Debug.Log(Application.persistentDataPath);
         }
 
         private void Start()
