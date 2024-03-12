@@ -1,4 +1,3 @@
-using MessagePack;
 using System.IO;
 using UnityEngine;
 
@@ -10,8 +9,8 @@ namespace KingOfGuns.Core.SaveSystem
 
         public static void SaveToBinaryFile(SaveData saveData)
         {
-            byte[] bytes = MessagePackSerializer.Serialize(saveData);
-            File.WriteAllBytes(Application.persistentDataPath + _fileName, bytes);
+            //byte[] bytes = MessagePackSerializer.Serialize(saveData);
+            //File.WriteAllBytes(Application.persistentDataPath + _fileName, bytes);
         }
     }
 }

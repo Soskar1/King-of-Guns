@@ -10,27 +10,29 @@ namespace KingOfGuns.Core.Entities
     [RequireComponent(typeof(Flipping))]
     public class Player : Entity, IReloadable
     {
-        [SerializeField] private Gun _gun;
+        [SerializeField] private GameObject _reloadText;
+        private Gun _gun;
         private Transform _currentSpawnPoint;
         private Rigidbody2D _rigidbody;
         private Input _input;
         private Jumping _jumping;
         private Flipping _flipping;
 
-        protected override void Awake()
+        public void Initialize(Input input, Gun gun)
         {
-            base.Awake();
-            _input = ServiceLocator.Instance.Get<Input>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _jumping = GetComponent<Jumping>();
             _flipping = GetComponent<Flipping>();
-        }
 
-        private void OnEnable()
-        {
+            _input = input;
             _input.Controls.Player.Jump.performed += Jump;
             _input.Controls.Player.Shoot.performed += Shoot;
             _input.Controls.Player.GunReload.performed += ReloadGun;
+
+            _gun = gun;
+            _gun.transform.SetParent(transform);
+            _gun.OnRanOutOfAmmo += ShowReloadText;
+            _gun.OnGunReloaded += HideReloadText;
         }
 
         private void OnDisable()
@@ -38,6 +40,8 @@ namespace KingOfGuns.Core.Entities
             _input.Controls.Player.Jump.performed -= Jump;
             _input.Controls.Player.Shoot.performed -= Shoot;
             _input.Controls.Player.GunReload.performed -= ReloadGun;
+            _gun.OnRanOutOfAmmo -= ShowReloadText;
+            _gun.OnGunReloaded -= HideReloadText;
         }
 
         public void FixedUpdate()
@@ -89,6 +93,10 @@ namespace KingOfGuns.Core.Entities
             transform.position = _currentSpawnPoint.position;
             _gun.InstantReload(_gun.MaxAmmo);
             _jumping.ReturnToInitialState();
+            _reloadText.SetActive(false);
         }
+    
+        private void ShowReloadText() => _reloadText.SetActive(true);
+        private void HideReloadText() => _reloadText.SetActive(false);
     }
 }

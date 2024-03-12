@@ -1,6 +1,8 @@
 using KingOfGuns.Core.Entities;
 using KingOfGuns.Core.UI;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 namespace KingOfGuns.Core.Guns
 {
@@ -18,8 +20,8 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] [Range(1, 5)] private int _bulletCount;
         [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
         [SerializeField] [Range(0, 45.0f)] private float _maxSpreadAngle;
-
-        [SerializeField] private GameObject _reloadText;
+        public Action OnRanOutOfAmmo;
+        public Action OnGunReloaded;
 
         private Flipping _flipping;
         private GunRotation _gunRotation;
@@ -42,23 +44,20 @@ namespace KingOfGuns.Core.Guns
         public int MaxAmmo => _maxAmmo;
         public bool IsFull => _ammoLeft == _maxAmmo;
 
-        private void Awake()
+        public void Initialize(Input input, Timer timer, AmmoUI ammoUI)
         {
+            _input = input;
+            _timer = timer;
+            _ammoUI = ammoUI;
+        
             _bulletPool = new ObjectPool<Bullet>(_bulletPrefab);
             _gunRotation = new GunRotation(transform);
-            
-            _input = ServiceLocator.Instance.Get<Input>();
-            _timer = ServiceLocator.Instance.Get<Timer>();
-            _ammoUI = ServiceLocator.Instance.Get<AmmoUI>();
             
             _flipping = GetComponent<Flipping>();
             _animator = GetComponent<Animator>();
 
             _ammoLeft = _maxAmmo;
-        }
 
-        private void Start()
-        {
             for (int i = _maxAmmo; i > 0; --i)
                 _ammoUI.AddAmmo();
         }
@@ -85,7 +84,7 @@ namespace KingOfGuns.Core.Guns
             for (int i = 0; i <  _bulletCount; ++i)
             {
                 Bullet bullet = _bulletPool.Dequeue();
-                bullet.Initialize(_bulletPool);
+                bullet.Initialize(_bulletPool, _timer);
                 bullet.transform.position = _bulletSpawnPoint.position;
 
                 float spread = Random.Range(_minSpreadAngle, _maxSpreadAngle);
@@ -97,7 +96,7 @@ namespace KingOfGuns.Core.Guns
             _ammoUI.HideAmmo(_ammoLeft);
 
             if (_ammoLeft == 0)
-                _reloadText.SetActive(true);
+                OnRanOutOfAmmo?.Invoke();
         }
 
         public void StartReloading()
@@ -106,7 +105,6 @@ namespace KingOfGuns.Core.Guns
                 return;
 
             Debug.Log("Reloading...");
-            _reloadText.SetActive(false);
             _animator.SetTrigger(_RELOAD_TRIGGER);
             _isReloading = true;
             _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
@@ -129,6 +127,7 @@ namespace KingOfGuns.Core.Guns
             _currentReloadTimer = null;
             _isReloading = false;
             _ammoUI.ShowAmmo(amountToReload);
+            OnGunReloaded?.Invoke();
         }
     }
 }

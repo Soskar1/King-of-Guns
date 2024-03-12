@@ -12,17 +12,23 @@ namespace KingOfGuns.Core.Entities
         private Coroutine _currentTimer;
         private TrailRenderer _trailRenderer;
 
+        private bool _initialized = false;
+
         protected override void Awake() 
         {
             base.Awake();
-            _timer = ServiceLocator.Instance.Get<Timer>();
             _trailRenderer = GetComponentInChildren<TrailRenderer>();
         }
 
-        public void Initialize(ObjectPool<Bullet> pool)
+        public void Initialize(ObjectPool<Bullet> pool, Timer timer)
         {
-            if (_pool == null)
-                _pool = pool;
+            if (_initialized)
+                return;
+
+            _pool = pool;
+            _timer = timer;
+
+            _initialized = true;
         }
 
         public void OnEnable() => _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);

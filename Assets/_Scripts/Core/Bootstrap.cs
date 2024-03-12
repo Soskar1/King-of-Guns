@@ -1,8 +1,6 @@
 using KingOfGuns.Core.Entities;
-using KingOfGuns.Core.SaveSystem;
+using KingOfGuns.Core.Guns;
 using KingOfGuns.Core.UI;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +10,11 @@ namespace KingOfGuns.Core
     public class Bootstrap : MonoBehaviour
     {
         [SerializeField] private Player _playerPrefab;
+        [SerializeField] private Gun _startGunPrefab;
         [SerializeField] private Transform _playerSpawnPosition;
         [SerializeField] private Spawner _spawner;
         [SerializeField] private Timer _timer;
         [SerializeField] private AmmoUI _ammoUI;
-        private List<Checkpoint> _checkpoints;
         private Level _level;
         private Input _input;
 
@@ -38,18 +36,20 @@ namespace KingOfGuns.Core
             _level = GetComponent<Level>();
 
             ServiceLocator serviceLocator = ServiceLocator.Instance;
-            serviceLocator.Register(_input);
             serviceLocator.Register(_spawner);
             serviceLocator.Register(_timer);
             serviceLocator.Register(_level);
-            serviceLocator.Register(_ammoUI);
 
             _level.Register(Camera.main.GetComponent<CameraMovement>());
         }
 
         private void Start()
         {
+            Gun gunInstance = _spawner.Spawn<Gun>(_startGunPrefab, _playerSpawnPosition.position, Quaternion.identity);
+            gunInstance.Initialize(_input, _timer, _ammoUI);
+
             Player playerInstance = _spawner.Spawn<Player>(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
+            playerInstance.Initialize(_input, gunInstance);
             playerInstance.SetSpawnPoint(_playerSpawnPosition);
         }
 
