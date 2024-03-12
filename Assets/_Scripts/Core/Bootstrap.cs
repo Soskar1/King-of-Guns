@@ -1,6 +1,8 @@
 using KingOfGuns.Core.Entities;
 using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.UI;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +16,7 @@ namespace KingOfGuns.Core
         [SerializeField] private Spawner _spawner;
         [SerializeField] private Timer _timer;
         [SerializeField] private AmmoUI _ammoUI;
+        private List<Checkpoint> _checkpoints;
         private Level _level;
         private Input _input;
 
@@ -42,8 +45,6 @@ namespace KingOfGuns.Core
             serviceLocator.Register(_ammoUI);
 
             _level.Register(Camera.main.GetComponent<CameraMovement>());
-
-            Debug.Log(Application.persistentDataPath);
         }
 
         private void Start()
