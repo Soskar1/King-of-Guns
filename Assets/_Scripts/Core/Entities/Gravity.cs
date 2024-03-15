@@ -4,7 +4,7 @@ namespace KingOfGuns.Core.Entities
 {
     public class Gravity : MonoBehaviour
     {
-        [SerializeField] private float _force;
+        [SerializeField] private float _additionalGravityForce;
         [SerializeField] private float _minYVelocity;
         private Rigidbody2D _rigidbody;
 
@@ -21,7 +21,7 @@ namespace KingOfGuns.Core.Entities
                 return;
             }
 
-            _rigidbody.AddForce(Vector2.down * _force);
+            _rigidbody.AddForce(Vector2.down * _additionalGravityForce);
         }
     }
 }

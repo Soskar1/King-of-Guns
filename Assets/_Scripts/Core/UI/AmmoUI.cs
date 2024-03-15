@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace KingOfGuns.Core.UI
 {
-    public class AmmoUI : MonoBehaviour, IService
+    public class AmmoUI : MonoBehaviour
     {
         [SerializeField] private GameObject _ammoImagePrefab;
         private List<Image> _ammo;
@@ -18,11 +19,12 @@ namespace KingOfGuns.Core.UI
             _ammo.Add(ammoImageInstance.GetComponent<Image>());
         }
 
-        public void HideAmmo(int index)
+        public void HideAmmo()
         {
             if (_ammo.Count <= 0)
                 return;
 
+            int index = _ammo.Where(_ammo => _ammo.enabled).Count() - 1; 
             _ammo[index].enabled = false;
         }
 

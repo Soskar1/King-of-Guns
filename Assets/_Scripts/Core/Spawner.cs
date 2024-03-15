@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core
 {
-    public class Spawner : MonoBehaviour, IService
+    public class Spawner : MonoBehaviour
     {
         [SerializeField] private Level _level;
 

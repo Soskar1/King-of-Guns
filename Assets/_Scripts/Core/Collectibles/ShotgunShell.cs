@@ -7,13 +7,13 @@ namespace KingOfGuns.Core.Collectibles
         [SerializeField] private SpriteRenderer _visual;
         [SerializeField] private Collider2D _trigger;
         [SerializeField] private float _deactivatedStateTimer;
-        private Timer _timer;
+        [SerializeField] private Timer _timer;
+        [SerializeField] private Level _level;
         private Coroutine _currentTimer = null;
 
         private void Start()
         {
-            ServiceLocator.Instance.Get<Level>().Register(this);
-            _timer = ServiceLocator.Instance.Get<Timer>();
+            _level.Register(this);
         }
 
         public void Deactivate()

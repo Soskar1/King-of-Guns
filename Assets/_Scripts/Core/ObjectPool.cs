@@ -9,9 +9,9 @@ namespace KingOfGuns.Core
         private T _prefab;
         private Spawner _spawner;
 
-        public ObjectPool(T prefab, int initialCapacity = 100)
+        public ObjectPool(Spawner spawner, T prefab, int initialCapacity = 100)
         {
-            _spawner = ServiceLocator.Instance.Get<Spawner>();
+            _spawner = spawner;
             _prefab = prefab;
             _pool = new Queue<T>(initialCapacity);
         }

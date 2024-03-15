@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace KingOfGuns.Core
 {
-    public class Input : IService
+    public class Input
     {
         public Controls Controls { get; private set; }
         public float MovementInput => Controls.Player.Movement.ReadValue<float>();

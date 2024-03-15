@@ -187,6 +187,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2832841941160667729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6675126283788408608}
+  - component: {fileID: 8479415476261746178}
+  m_Layer: 0
+  m_Name: GunHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6675126283788408608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2832841941160667729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.036, y: -0.097, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3726617950381101088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8479415476261746178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2832841941160667729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbd3849c05073b4fb60fa72409c6248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reloadText: {fileID: 557633942738800084}
+  _rigidbody: {fileID: 7248648019839978523}
 --- !u!1 &2847594491926443651
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +375,7 @@ Transform:
   - {fileID: 2216272196168974564}
   - {fileID: 6853373767839476658}
   - {fileID: 3386631437861756286}
+  - {fileID: 6675126283788408608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3217533655207048452
@@ -415,6 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374b11c67038fc8458f7ac1040362f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gunHandler: {fileID: 8479415476261746178}
 --- !u!114 &1527449197091280410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3a2ee189e96694a94896c6f304f683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _force: 13
+  _additionalGravityForce: 13
   _minYVelocity: -20
 --- !u!114 &-4447116491323863000
 MonoBehaviour:

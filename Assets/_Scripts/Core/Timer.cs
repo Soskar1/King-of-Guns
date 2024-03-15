@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core
 {
-    public class Timer : MonoBehaviour, IService
+    public class Timer : MonoBehaviour
     {
         public Coroutine StartTimer(float time, Action action) => StartCoroutine(StartCountdown(time, action));
 

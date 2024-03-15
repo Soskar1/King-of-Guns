@@ -5,7 +5,7 @@ namespace KingOfGuns.Core.SaveSystem
 {
     public static class SaveService
     {
-        private static string _fileName = "/kog.sav";
+        //private static string _fileName = "/kog.sav";
 
         public static void SaveToBinaryFile(SaveData saveData)
         {

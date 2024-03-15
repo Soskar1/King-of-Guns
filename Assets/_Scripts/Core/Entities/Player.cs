@@ -1,5 +1,6 @@
 using KingOfGuns.Core.Collectibles;
 using KingOfGuns.Core.Guns;
+using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,15 +11,14 @@ namespace KingOfGuns.Core.Entities
     [RequireComponent(typeof(Flipping))]
     public class Player : Entity, IReloadable
     {
-        [SerializeField] private GameObject _reloadText;
-        private Gun _gun;
+        [SerializeField] private GunHandler _gunHandler;
         private Transform _currentSpawnPoint;
         private Rigidbody2D _rigidbody;
         private Input _input;
         private Jumping _jumping;
         private Flipping _flipping;
 
-        public void Initialize(Input input, Gun gun)
+        public void Initialize(Input input, Gun gun, AmmoUI ammoUI)
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _jumping = GetComponent<Jumping>();
@@ -29,10 +29,7 @@ namespace KingOfGuns.Core.Entities
             _input.Controls.Player.Shoot.performed += Shoot;
             _input.Controls.Player.GunReload.performed += ReloadGun;
 
-            _gun = gun;
-            _gun.transform.SetParent(transform);
-            _gun.OnRanOutOfAmmo += ShowReloadText;
-            _gun.OnGunReloaded += HideReloadText;
+            _gunHandler.Initialize(gun, ammoUI);
         }
 
         private void OnDisable()
@@ -40,8 +37,6 @@ namespace KingOfGuns.Core.Entities
             _input.Controls.Player.Jump.performed -= Jump;
             _input.Controls.Player.Shoot.performed -= Shoot;
             _input.Controls.Player.GunReload.performed -= ReloadGun;
-            _gun.OnRanOutOfAmmo -= ShowReloadText;
-            _gun.OnGunReloaded -= HideReloadText;
         }
 
         public void FixedUpdate()
@@ -56,34 +51,15 @@ namespace KingOfGuns.Core.Entities
         public void SetSpawnPoint(Transform spawnPoint) => _currentSpawnPoint = spawnPoint;
 
         private void Jump(InputAction.CallbackContext context) => _jumping.Jump();
-
-        private void Shoot(InputAction.CallbackContext context)
-        {
-            if (_gun.IsReloading)
-                return;
-            
-            _gun.Shoot();
-
-            if (!_gun.IsReloading)
-                ApplyKnockback();
-        }
-
-        private void ReloadGun(InputAction.CallbackContext context) => _gun.StartReloading();
-
-        private void ApplyKnockback()
-        {
-            Vector2 direction = (_gun.transform.rotation * Vector2.right).normalized;
-            float forceX = -direction.x * _gun.KnockbackForce;
-            float forceY = -direction.y * _gun.KnockbackForce;
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x + forceX, forceY);
-        }
+        private void Shoot(InputAction.CallbackContext context) => _gunHandler.Shoot();
+        private void ReloadGun(InputAction.CallbackContext context) => _gunHandler.ReloadGun();
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out ShotgunShell shotgunShell))
             {
                 shotgunShell.Deactivate();
-                _gun.InstantReload(1);
+                _gunHandler.InstantReload(1);
             }
         }
 
@@ -91,12 +67,9 @@ namespace KingOfGuns.Core.Entities
         {
             _rigidbody.velocity = Vector2.zero;
             transform.position = _currentSpawnPoint.position;
-            _gun.InstantReload(_gun.MaxAmmo);
+            
             _jumping.ReturnToInitialState();
-            _reloadText.SetActive(false);
+            _gunHandler.Reload();
         }
-    
-        private void ShowReloadText() => _reloadText.SetActive(true);
-        private void HideReloadText() => _reloadText.SetActive(false);
     }
 }

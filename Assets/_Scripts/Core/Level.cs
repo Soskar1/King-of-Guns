@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KingOfGuns.Core
 {
-    public class Level : MonoBehaviour, IService
+    public class Level : MonoBehaviour
     {
         private List<IReloadable> _reloadables = new List<IReloadable>();
 

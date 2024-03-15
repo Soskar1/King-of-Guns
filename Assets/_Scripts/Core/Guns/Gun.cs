@@ -10,7 +10,6 @@ namespace KingOfGuns.Core.Guns
     [RequireComponent(typeof(Animator))]
     public class Gun : MonoBehaviour
     {
-        [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private float _knockbackForce;
         [SerializeField] private float _reloadTime;
@@ -21,7 +20,10 @@ namespace KingOfGuns.Core.Guns
         [SerializeField] [Range(-45.0f, 0)] private float _minSpreadAngle;
         [SerializeField] [Range(0, 45.0f)] private float _maxSpreadAngle;
         public Action OnRanOutOfAmmo;
-        public Action OnGunReloaded;
+        public Action Reloading;
+        public Action OnGunFired;
+        public Action<int> OnGunReloaded;
+        public Action<float> OnApplyKnockback;
 
         private Flipping _flipping;
         private GunRotation _gunRotation;
@@ -32,34 +34,26 @@ namespace KingOfGuns.Core.Guns
         private bool _isReloading = false;
         private Coroutine _currentReloadTimer = null;
 
-        private AmmoUI _ammoUI;
-
         private Animator _animator;
         private AnimationClip _reloadingAnimationClip;
         private const string _SHOOT_TRIGGER = "Shoot";
         private const string _RELOAD_TRIGGER = "Reload";
 
-        public float KnockbackForce => _knockbackForce;
-        public bool IsReloading => _isReloading;
         public int MaxAmmo => _maxAmmo;
-        public bool IsFull => _ammoLeft == _maxAmmo;
+        private bool IsFull => _ammoLeft == _maxAmmo;
 
-        public void Initialize(Input input, Timer timer, AmmoUI ammoUI)
+        public void Initialize(Input input, Timer timer, ObjectPool<Bullet> objectPool)
         {
             _input = input;
             _timer = timer;
-            _ammoUI = ammoUI;
         
-            _bulletPool = new ObjectPool<Bullet>(_bulletPrefab);
+            _bulletPool = objectPool;
             _gunRotation = new GunRotation(transform);
             
             _flipping = GetComponent<Flipping>();
             _animator = GetComponent<Animator>();
 
             _ammoLeft = _maxAmmo;
-
-            for (int i = _maxAmmo; i > 0; --i)
-                _ammoUI.AddAmmo();
         }
 
         public void Update()
@@ -74,6 +68,9 @@ namespace KingOfGuns.Core.Guns
 
         public void Shoot()
         {
+            if (_isReloading)
+                return;
+
             if (_ammoLeft <= 0 && !_isReloading)
             {
                 StartReloading();
@@ -93,7 +90,8 @@ namespace KingOfGuns.Core.Guns
             }
 
             --_ammoLeft;
-            _ammoUI.HideAmmo(_ammoLeft);
+            OnGunFired?.Invoke();
+            OnApplyKnockback?.Invoke(_knockbackForce);
 
             if (_ammoLeft == 0)
                 OnRanOutOfAmmo?.Invoke();
@@ -105,6 +103,7 @@ namespace KingOfGuns.Core.Guns
                 return;
 
             Debug.Log("Reloading...");
+            Reloading?.Invoke();
             _animator.SetTrigger(_RELOAD_TRIGGER);
             _isReloading = true;
             _currentReloadTimer = _timer.StartTimer(_reloadTime, () => { Reload(_maxAmmo); });
@@ -126,8 +125,7 @@ namespace KingOfGuns.Core.Guns
 
             _currentReloadTimer = null;
             _isReloading = false;
-            _ammoUI.ShowAmmo(amountToReload);
-            OnGunReloaded?.Invoke();
+            OnGunReloaded?.Invoke(_ammoLeft);
         }
     }
 }

@@ -1,5 +1,4 @@
 using KingOfGuns.Core.Collectibles;
-using KingOfGuns.Core.SaveSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
@@ -29,10 +28,15 @@ namespace KingOfGuns.Core.Entities
             _timer = timer;
 
             _initialized = true;
+            _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
         }
 
-        public void OnEnable() => _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
-        
+        public void OnEnable()
+        {
+            if (_initialized)
+                _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
+        }
+
         public void Update() => Move(Vector2.right);
 
         private void OnTriggerEnter2D(Collider2D collider)
