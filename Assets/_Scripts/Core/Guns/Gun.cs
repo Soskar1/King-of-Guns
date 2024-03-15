@@ -1,5 +1,4 @@
 using KingOfGuns.Core.Entities;
-using KingOfGuns.Core.UI;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;

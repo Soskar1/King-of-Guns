@@ -1,3 +1,4 @@
+using KingOfGuns.Core.SaveSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core
@@ -10,8 +11,7 @@ namespace KingOfGuns.Core
         {
             T obj = (T)Instantiate(prefab);
 
-            if (obj is IReloadable reloadable)
-                _level.Register(reloadable);
+            TryRegisterToLevel(obj);
 
             return obj;
         }
@@ -20,10 +20,18 @@ namespace KingOfGuns.Core
         {
             T obj = (T)Instantiate(prefab, position, rotation);
 
+            TryRegisterToLevel(obj);
+
+            return obj;
+        }
+
+        private void TryRegisterToLevel<T>(T obj)
+        {
             if (obj is IReloadable reloadable)
                 _level.Register(reloadable);
 
-            return obj;
+            if (obj is ISaveDataConsumer saveDataConsumer)
+                _level.Register(saveDataConsumer);
         }
     }
 }

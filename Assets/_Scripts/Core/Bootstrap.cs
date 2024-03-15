@@ -1,6 +1,8 @@
 using KingOfGuns.Core.Entities;
 using KingOfGuns.Core.Guns;
+using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.UI;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +18,7 @@ namespace KingOfGuns.Core
         [SerializeField] private Spawner _spawner;
         [SerializeField] private Timer _timer;
         [SerializeField] private AmmoUI _ammoUI;
+        [SerializeField] private string _jsonFileNameSave;
         private Level _level;
         private Input _input;
 
@@ -48,7 +51,18 @@ namespace KingOfGuns.Core
 
             Player playerInstance = _spawner.Spawn<Player>(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
             playerInstance.Initialize(_input, gunInstance, _ammoUI);
-            playerInstance.SetSpawnPoint(_playerSpawnPosition);
+
+            InitializeSaveService(playerInstance);
+        }
+
+        private void InitializeSaveService(Player playerInstance)
+        {
+            SaveService saveService = new SaveService(playerInstance, _jsonFileNameSave);
+            _level.SaveService = saveService;
+
+            Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+            foreach (Checkpoint checkpoint in checkpoints)
+                checkpoint.Initalize(saveService);
         }
 
         private void ReloadLevel(InputAction.CallbackContext context) => _level.Reload();

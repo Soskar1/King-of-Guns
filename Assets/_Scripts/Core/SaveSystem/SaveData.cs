@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.SaveSystem
 {
+    [System.Serializable]
     public class SaveData
     {
         public float worldPositionX;

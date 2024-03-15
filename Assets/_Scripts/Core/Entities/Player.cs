@@ -1,5 +1,6 @@
 using KingOfGuns.Core.Collectibles;
 using KingOfGuns.Core.Guns;
+using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,10 +10,9 @@ namespace KingOfGuns.Core.Entities
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Jumping))]
     [RequireComponent(typeof(Flipping))]
-    public class Player : Entity, IReloadable
+    public class Player : Entity, ISaveDataConsumer
     {
         [SerializeField] private GunHandler _gunHandler;
-        private Transform _currentSpawnPoint;
         private Rigidbody2D _rigidbody;
         private Input _input;
         private Jumping _jumping;
@@ -48,8 +48,6 @@ namespace KingOfGuns.Core.Entities
             Move(Vector2.right * _input.MovementInput);
         }
 
-        public void SetSpawnPoint(Transform spawnPoint) => _currentSpawnPoint = spawnPoint;
-
         private void Jump(InputAction.CallbackContext context) => _jumping.Jump();
         private void Shoot(InputAction.CallbackContext context) => _gunHandler.Shoot();
         private void ReloadGun(InputAction.CallbackContext context) => _gunHandler.ReloadGun();
@@ -63,11 +61,11 @@ namespace KingOfGuns.Core.Entities
             }
         }
 
-        public void Reload()
+        public void ConsumeSave(SaveData saveData)
         {
             _rigidbody.velocity = Vector2.zero;
-            transform.position = _currentSpawnPoint.position;
-            
+            transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
+
             _jumping.ReturnToInitialState();
             _gunHandler.Reload();
         }

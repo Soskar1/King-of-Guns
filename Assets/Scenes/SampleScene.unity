@@ -6941,6 +6941,7 @@ MonoBehaviour:
   _spawner: {fileID: 233784958}
   _timer: {fileID: 1422789858}
   _ammoUI: {fileID: 1353317845}
+  _jsonFileNameSave: World
 --- !u!4 &1241911447
 Transform:
   m_ObjectHideFlags: 0
@@ -7441,6 +7442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1542574328}
   - component: {fileID: 1542574329}
+  - component: {fileID: 1542574330}
   m_Layer: 0
   m_Name: Checkpoint
   m_TagString: Untagged
@@ -7510,6 +7512,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.99999976}
   m_EdgeRadius: 0
+--- !u!114 &1542574330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542574327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90794646173fd4f48ba16b6695723027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1548113441
 PrefabInstance:
   m_ObjectHideFlags: 0

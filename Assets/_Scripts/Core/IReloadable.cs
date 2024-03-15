@@ -1,4 +1,3 @@
-
 namespace KingOfGuns.Core
 {
     public interface IReloadable

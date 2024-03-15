@@ -1,3 +1,4 @@
+using KingOfGuns.Core.SaveSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Collectibles
@@ -11,10 +12,7 @@ namespace KingOfGuns.Core.Collectibles
         [SerializeField] private Level _level;
         private Coroutine _currentTimer = null;
 
-        private void Start()
-        {
-            _level.Register(this);
-        }
+        private void Start() => _level.Register(this);
 
         public void Deactivate()
         {
