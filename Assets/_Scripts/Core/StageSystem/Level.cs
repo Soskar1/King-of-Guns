@@ -9,6 +9,7 @@ namespace KingOfGuns.Core.StageSystem
         [SerializeField] private Stage _startStage;
 
         private Player _player;
+        private Camera _camera;
         private SaveService _saveService;
         private Stage[] _stages;
         private Stage _currentStage;
@@ -18,6 +19,7 @@ namespace KingOfGuns.Core.StageSystem
             _stages = stages;
             _saveService = saveService;
             _player = player;
+            _camera = Camera.main;
 
             LoadSaveFile();
         }
@@ -45,7 +47,7 @@ namespace KingOfGuns.Core.StageSystem
                 stage = GetStage(saveData.stageID);
                 _player.Reload();
                 _player.transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
-                Camera.main.transform.position = new Vector3(stage.transform.position.x, stage.transform.position.y, Camera.main.transform.position.z);
+                MoveCamera(stage);
             }
 
             ActivateStage(stage);
@@ -53,7 +55,13 @@ namespace KingOfGuns.Core.StageSystem
 
         private void ActivateStage(Stage stage)
         {
-            if (_currentStage != null)
+            if (stage is null)
+            {
+                Debug.LogWarning("Provided stage is null. Ignoring transition");
+                return;
+            }
+
+            if (_currentStage is not null)
             {
                 _currentStage.Reload();
                 _currentStage.Disable();
@@ -63,6 +71,9 @@ namespace KingOfGuns.Core.StageSystem
             _currentStage = stage;
             _currentStage.Enable();
             _currentStage.OnStageExit += ActivateStage;
+            MoveCamera(_currentStage);
         }
+
+        private void MoveCamera(Stage stage) => _camera.transform.position = new Vector3(stage.transform.position.x, stage.transform.position.y, _camera.transform.position.z);
     }
 }

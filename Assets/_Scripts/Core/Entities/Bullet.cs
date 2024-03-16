@@ -1,4 +1,5 @@
 using KingOfGuns.Core.Collectibles;
+using KingOfGuns.Core.StageSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
@@ -48,6 +49,9 @@ namespace KingOfGuns.Core.Entities
                 return;
 
             if (collider.GetComponent<ShotgunShell>() != null)
+                return;
+
+            if (collider.GetComponent<StageBorder>() != null)
                 return;
 
             Reload();
