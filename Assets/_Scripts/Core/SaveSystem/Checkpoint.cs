@@ -1,18 +1,23 @@
 using KingOfGuns.Core.Entities;
+using KingOfGuns.Core.StageSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core.SaveSystem
 {
-    public class Checkpoint : MonoBehaviour
+    public class Checkpoint : MonoBehaviour, IStageObject
     {
-        private SaveService _saveService;
+        [SerializeField] private Level _level;
+        [SerializeField] private Stage _stageToSave;
+        private bool _canSave = false;
 
-        public void Initalize(SaveService saveService) => _saveService = saveService;
+        public void Disable() => _canSave = false;
+        public void Enable() => _canSave = true;
+        public void Reload() { }
 
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.GetComponent<Bullet>() != null)
-                _saveService.SaveToJson();
+            if (_canSave && collision.GetComponent<Bullet>() != null)
+                _level.Save(_stageToSave.ID);
         }
     }
 }

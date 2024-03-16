@@ -7,11 +7,13 @@ namespace KingOfGuns.Core.SaveSystem
     {
         public float worldPositionX;
         public float worldPositionY;
+        public int stageID;
     
-        public SaveData(Vector2 worldPosition)
+        public SaveData(Vector2 worldPosition, int stageID)
         {
             worldPositionX = worldPosition.x;
             worldPositionY = worldPosition.y;
+            this.stageID = stageID;
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Guns
 {
-    public class GunHandler : MonoBehaviour, IReloadable
+    public class GunHandler : MonoBehaviour
     {
         [SerializeField] private GameObject _reloadText;
         [SerializeField] private Rigidbody2D _rigidbody;

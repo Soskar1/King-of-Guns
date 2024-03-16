@@ -1,6 +1,5 @@
 using KingOfGuns.Core.Collectibles;
 using KingOfGuns.Core.Guns;
-using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +9,7 @@ namespace KingOfGuns.Core.Entities
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Jumping))]
     [RequireComponent(typeof(Flipping))]
-    public class Player : Entity, ISaveDataConsumer
+    public class Player : Entity
     {
         [SerializeField] private GunHandler _gunHandler;
         private Rigidbody2D _rigidbody;
@@ -56,16 +55,14 @@ namespace KingOfGuns.Core.Entities
         {
             if (collision.TryGetComponent(out ShotgunShell shotgunShell))
             {
-                shotgunShell.Deactivate();
+                shotgunShell.Disable();
                 _gunHandler.InstantReload(1);
             }
         }
 
-        public void ConsumeSave(SaveData saveData)
+        public void Reload()
         {
             _rigidbody.velocity = Vector2.zero;
-            transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
-
             _jumping.ReturnToInitialState();
             _gunHandler.Reload();
         }

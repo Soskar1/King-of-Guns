@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
 {
-    public class Bullet : Entity, IReloadable
+    public class Bullet : Entity
     {
         [SerializeField] private float _lifeTime;
         private ObjectPool<Bullet> _pool;
