@@ -1,9 +1,10 @@
 using KingOfGuns.Core.Collectibles;
+using KingOfGuns.Core.StageSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
 {
-    public class Bullet : Entity, IReloadable
+    public class Bullet : Entity
     {
         [SerializeField] private float _lifeTime;
         private ObjectPool<Bullet> _pool;
@@ -48,6 +49,9 @@ namespace KingOfGuns.Core.Entities
                 return;
 
             if (collider.GetComponent<ShotgunShell>() != null)
+                return;
+
+            if (collider.GetComponent<StageBorder>() != null)
                 return;
 
             Reload();

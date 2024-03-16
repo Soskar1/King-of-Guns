@@ -1,8 +1,8 @@
 using KingOfGuns.Core.Entities;
 using KingOfGuns.Core.Guns;
 using KingOfGuns.Core.SaveSystem;
+using KingOfGuns.Core.StageSystem;
 using KingOfGuns.Core.UI;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,23 +11,28 @@ namespace KingOfGuns.Core
     [RequireComponent(typeof(Level))]
     public class Bootstrap : MonoBehaviour
     {
+        [Header("Prefabs")]
         [SerializeField] private Player _playerPrefab;
+        [SerializeField] private Transform _playerSpawnPosition;
         [SerializeField] private Gun _startGunPrefab;
         [SerializeField] private Bullet _bulletPrefab;
-        [SerializeField] private Transform _playerSpawnPosition;
+
+        [Header("Systems")]
         [SerializeField] private Spawner _spawner;
         [SerializeField] private Timer _timer;
-        [SerializeField] private AmmoUI _ammoUI;
-        [SerializeField] private string _jsonFileNameSave;
         private Level _level;
         private Input _input;
+
+        [Header("UI")]
+        [SerializeField] private AmmoUI _ammoUI;
+
+        [Header("Save System")]
+        [SerializeField] private string _jsonFileNameSave;
 
         private void Awake()
         {
             _input = new Input();
             _level = GetComponent<Level>();
-
-            _level.Register(Camera.main.GetComponent<CameraMovement>());
         }
 
         private void OnEnable()
@@ -52,19 +57,21 @@ namespace KingOfGuns.Core
             Player playerInstance = _spawner.Spawn<Player>(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
             playerInstance.Initialize(_input, gunInstance, _ammoUI);
 
-            InitializeSaveService(playerInstance);
+            SaveService saveService = new SaveService(_jsonFileNameSave);
+            Stage[] stages = InitializeStages();
+            _level.Initialize(stages, saveService, playerInstance);
         }
 
-        private void InitializeSaveService(Player playerInstance)
+        private Stage[] InitializeStages()
         {
-            SaveService saveService = new SaveService(playerInstance, _jsonFileNameSave);
-            _level.SaveService = saveService;
+            Stage[] stages = GetComponentsInChildren<Stage>();
 
-            Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
-            foreach (Checkpoint checkpoint in checkpoints)
-                checkpoint.Initalize(saveService);
+            for (int i = 0; i < stages.Length; i++)
+                stages[i].Initialize(i);
+
+            return stages;
         }
 
-        private void ReloadLevel(InputAction.CallbackContext context) => _level.Reload();
+        private void ReloadLevel(InputAction.CallbackContext context) => _level.LoadSaveFile();
     }
 }
