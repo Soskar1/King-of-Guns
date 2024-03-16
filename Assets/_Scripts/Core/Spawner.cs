@@ -1,4 +1,5 @@
 using KingOfGuns.Core.SaveSystem;
+using KingOfGuns.Core.StageSystem;
 using UnityEngine;
 
 namespace KingOfGuns.Core

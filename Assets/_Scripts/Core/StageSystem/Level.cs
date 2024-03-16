@@ -2,13 +2,22 @@ using UnityEngine;
 using System.Collections.Generic;
 using KingOfGuns.Core.SaveSystem;
 
-namespace KingOfGuns.Core
+namespace KingOfGuns.Core.StageSystem
 {
     public class Level : MonoBehaviour
     {
         private List<IReloadable> _reloadables = new List<IReloadable>();
         private List<ISaveDataConsumer> _saveConsumers = new List<ISaveDataConsumer>();
-        public SaveService SaveService { get; set; }
+
+        private SaveService _saveService;
+        private Dictionary<int, Stage> _stages;
+        private Stage _currentStage;
+
+        public void Initialize(Dictionary<int, Stage> stages, SaveService saveService)
+        {
+            _stages = stages;
+            _saveService = saveService;
+        }
 
         public void Register(IReloadable reloadable)
         {
