@@ -21,6 +21,9 @@ namespace KingOfGuns.Core.StageSystem
             _player = player;
             _camera = Camera.main;
 
+            foreach (Stage stage in _stages)
+                stage.OnStageEnter += ActivateStage;
+
             LoadSaveFile();
         }
 
@@ -65,12 +68,12 @@ namespace KingOfGuns.Core.StageSystem
             {
                 _currentStage.Reload();
                 _currentStage.Disable();
-                _currentStage.OnStageExit -= ActivateStage;
+                //_currentStage.OnStageExit -= ActivateStage;
             }
             
             _currentStage = stage;
             _currentStage.Enable();
-            _currentStage.OnStageExit += ActivateStage;
+            //_currentStage.OnStageExit += ActivateStage;
             MoveCamera(_currentStage);
         }
 

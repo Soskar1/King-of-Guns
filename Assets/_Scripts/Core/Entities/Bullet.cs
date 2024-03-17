@@ -51,7 +51,7 @@ namespace KingOfGuns.Core.Entities
             if (collider.GetComponent<ShotgunShell>() != null)
                 return;
 
-            if (collider.GetComponent<StageBorder>() != null)
+            if (collider.GetComponent<Stage>() != null)
                 return;
 
             Reload();
