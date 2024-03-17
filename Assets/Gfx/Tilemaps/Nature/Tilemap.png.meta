@@ -730,6 +730,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Wooden_Spikes_0
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c63f7d2dda2db9c408d01e2b8b0c77f8
+      internalID: -1024664383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wooden_Spikes_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9376331c723fcda48b74eaba3d2b8eb3
+      internalID: -2085234263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -769,6 +811,8 @@ TextureImporter:
       GrassWall_Left: -584707008
       GrassWall_Right: 619373671
       Grass_1: -148028975
+      Wooden_Spikes_0: -1024664383
+      Wooden_Spikes_1: -2085234263
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
