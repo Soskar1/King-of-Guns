@@ -57,7 +57,7 @@ namespace KingOfGuns.Core
             Player playerInstance = _spawner.Spawn<Player>(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
             playerInstance.Initialize(_input, gunInstance, _ammoUI);
 
-            SaveService saveService = new SaveService(_jsonFileNameSave);
+            SaveService saveService = new SaveService(_jsonFileNameSave, SaveConfiguration.saveFileLocation);
             Stage[] stages = InitializeStages();
             _level.Initialize(stages, saveService, playerInstance);
         }

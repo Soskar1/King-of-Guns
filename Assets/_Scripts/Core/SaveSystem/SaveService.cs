@@ -1,4 +1,3 @@
-using KingOfGuns.Core.Entities;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -9,10 +8,12 @@ namespace KingOfGuns.Core.SaveSystem
     public class SaveService
     {
         private string _fileName;
+        private string _saveFileLocation;
 
-        public SaveService(string fileName)
+        public SaveService(string fileName, string saveFileLocation)
         {
             _fileName = fileName;
+            _saveFileLocation = saveFileLocation;
 
             Regex regex = new Regex(".+\\.json$");
             if (!regex.Match(_fileName).Success)
@@ -23,7 +24,7 @@ namespace KingOfGuns.Core.SaveSystem
         {
             SaveData saveData = new SaveData(player.position, stageID);
 
-            string fullPath = Path.Combine(Application.persistentDataPath, _fileName);
+            string fullPath = Path.Combine(_saveFileLocation, _fileName);
             string json = JsonUtility.ToJson(saveData);
             File.WriteAllText(fullPath, json);
         }
@@ -32,7 +33,7 @@ namespace KingOfGuns.Core.SaveSystem
         {
             try
             {
-                string fullPath = Path.Combine(Application.persistentDataPath, _fileName);
+                string fullPath = Path.Combine(_saveFileLocation, _fileName);
                 string json = File.ReadAllText(fullPath);
                 return JsonUtility.FromJson<SaveData>(json);
             }
