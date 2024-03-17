@@ -68,12 +68,10 @@ namespace KingOfGuns.Core.StageSystem
             {
                 _currentStage.Reload();
                 _currentStage.Disable();
-                //_currentStage.OnStageExit -= ActivateStage;
             }
             
             _currentStage = stage;
             _currentStage.Enable();
-            //_currentStage.OnStageExit += ActivateStage;
             MoveCamera(_currentStage);
         }
 
