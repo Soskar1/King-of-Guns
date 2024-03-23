@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace KingOfGuns.Core.Entities
 {
-    public class Bullet : Entity
+    public class Bullet : MonoBehaviour
     {
         [SerializeField] private float _lifeTime;
+        private IMovable _movement;
         private ObjectPool<Bullet> _pool;
         private Timer _timer;
         private Coroutine _currentTimer;
@@ -14,9 +15,9 @@ namespace KingOfGuns.Core.Entities
 
         private bool _initialized = false;
 
-        protected override void Awake() 
+        private void Awake() 
         {
-            base.Awake();
+            _movement = GetComponent<IMovable>();
             _trailRenderer = GetComponentInChildren<TrailRenderer>();
         }
 
@@ -38,7 +39,7 @@ namespace KingOfGuns.Core.Entities
                 _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
         }
 
-        public void Update() => Move(Vector2.right);
+        public void Update() => _movement.Move(Vector2.right);
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
