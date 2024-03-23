@@ -29,6 +29,18 @@ namespace KingOfGuns.Core.Entities
             _input.Controls.Player.GunReload.performed += ReloadGun;
 
             _gunHandler.Initialize(gun, ammoUI);
+
+            Health.OnDie += () => gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            if (_input is null)
+                return;
+
+            _input.Controls.Player.Jump.performed += Jump;
+            _input.Controls.Player.Shoot.performed += Shoot;
+            _input.Controls.Player.GunReload.performed += ReloadGun;
         }
 
         private void OnDisable()
@@ -60,11 +72,13 @@ namespace KingOfGuns.Core.Entities
             }
         }
 
-        public void Reload()
+        public override void Reset()
         {
+            base.Reset();
             _rigidbody.velocity = Vector2.zero;
             _jumping.ReturnToInitialState();
-            _gunHandler.Reload();
+            _gunHandler.Reset();
+            gameObject.SetActive(true);
         }
     }
 }

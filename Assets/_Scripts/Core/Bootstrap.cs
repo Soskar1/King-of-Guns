@@ -25,6 +25,7 @@ namespace KingOfGuns.Core
 
         [Header("UI")]
         [SerializeField] private AmmoUI _ammoUI;
+        [SerializeField] private GameOverUI _gameOverUI;
 
         [Header("Save System")]
         [SerializeField] private string _jsonFileNameSave;
@@ -56,6 +57,7 @@ namespace KingOfGuns.Core
 
             Player playerInstance = _spawner.Spawn<Player>(_playerPrefab, _playerSpawnPosition.position, Quaternion.identity);
             playerInstance.Initialize(_input, gunInstance, _ammoUI);
+            playerInstance.GetComponent<Health>().OnDie += _gameOverUI.Show;
 
             SaveService saveService = new SaveService(_jsonFileNameSave, SaveConfiguration.saveFileLocation);
             Stage[] stages = InitializeStages();
@@ -72,6 +74,10 @@ namespace KingOfGuns.Core
             return stages;
         }
 
-        private void ReloadLevel(InputAction.CallbackContext context) => _level.LoadSaveFile();
+        private void ReloadLevel(InputAction.CallbackContext context)
+        {
+            _level.LoadSaveFile();
+            _gameOverUI.Hide();
+        }
     }
 }

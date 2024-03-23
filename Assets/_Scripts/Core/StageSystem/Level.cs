@@ -48,7 +48,7 @@ namespace KingOfGuns.Core.StageSystem
             if (saveData is not null)
             {
                 stage = GetStage(saveData.stageID);
-                _player.Reload();
+                _player.Reset();
                 _player.transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
                 MoveCamera(stage);
             }

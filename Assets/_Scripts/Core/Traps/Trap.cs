@@ -7,9 +7,10 @@ namespace KingOfGuns.Core.Traps
     {
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.GetComponent<Player>() != null)
+            if (collider.TryGetComponent(out Player player))
             {
                 Debug.Log("Trap killed a player!");
+                player.Kill();
             }
         }
     }

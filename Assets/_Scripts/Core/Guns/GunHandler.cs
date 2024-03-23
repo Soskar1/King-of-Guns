@@ -28,6 +28,18 @@ namespace KingOfGuns.Core.Guns
                 _ammoUI.AddAmmo();
         }
 
+        private void OnEnable()
+        {
+            if (_currentGun is null)
+                return;
+
+            _currentGun.OnRanOutOfAmmo += ShowReloadText;
+            _currentGun.Reloading += HideReloadText;
+            _currentGun.OnGunReloaded += ShowAmmo;
+            _currentGun.OnApplyKnockback += ApplyKnockback;
+            _currentGun.OnGunFired += HideAmmo;
+        }
+
         private void OnDisable()
         {
             _currentGun.OnRanOutOfAmmo -= ShowReloadText;
@@ -54,7 +66,7 @@ namespace KingOfGuns.Core.Guns
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x + forceX, forceY);
         }
 
-        public void Reload()
+        public void Reset()
         {
             _currentGun.InstantReload(_currentGun.MaxAmmo);
             _reloadText.SetActive(false);
