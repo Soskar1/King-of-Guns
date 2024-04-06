@@ -2,6 +2,7 @@ using KingOfGuns.Core.Entities;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 namespace KingOfGuns.Core.Guns
 {
@@ -27,7 +28,9 @@ namespace KingOfGuns.Core.Guns
         private Flipping _flipping;
         private GunRotation _gunRotation;
         private Input _input;
+        
         private ObjectPool<Bullet> _bulletPool;
+        private List<Bullet> _activeBullets = new List<Bullet>();
 
         private Timer _timer;
         private bool _isReloading = false;
@@ -86,6 +89,9 @@ namespace KingOfGuns.Core.Guns
                 float spread = Random.Range(_minSpreadAngle, _maxSpreadAngle);
                 bullet.transform.rotation = transform.rotation;
                 bullet.transform.Rotate(0, 0, spread);
+
+                bullet.OnReset += (bullet) => _activeBullets.Remove(bullet);
+                _activeBullets.Add(bullet);
             }
 
             --_ammoLeft;
@@ -125,6 +131,14 @@ namespace KingOfGuns.Core.Guns
             _currentReloadTimer = null;
             _isReloading = false;
             OnGunReloaded?.Invoke(_ammoLeft);
+        }
+
+        public void Reset()
+        {
+            InstantReload(_maxAmmo);
+
+            _activeBullets.ForEach(bullet => bullet.Reset());
+            _activeBullets.Clear();
         }
     }
 }

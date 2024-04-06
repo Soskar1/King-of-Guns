@@ -1,6 +1,7 @@
 using KingOfGuns.Core.Collectibles;
 using KingOfGuns.Core.StageSystem;
 using UnityEngine;
+using System;
 
 namespace KingOfGuns.Core.Entities
 {
@@ -13,6 +14,8 @@ namespace KingOfGuns.Core.Entities
         private Coroutine _currentTimer;
         private TrailRenderer _trailRenderer;
 
+        public Action<Bullet> OnReset;
+
         private bool _initialized = false;
 
         private void Awake() 
@@ -23,6 +26,8 @@ namespace KingOfGuns.Core.Entities
 
         public void Initialize(ObjectPool<Bullet> pool, Timer timer)
         {
+            OnReset = null;
+
             if (_initialized)
                 return;
 
@@ -30,13 +35,13 @@ namespace KingOfGuns.Core.Entities
             _timer = timer;
 
             _initialized = true;
-            _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
+            _currentTimer = _timer.StartTimer(_lifeTime, () => { Reset(); OnReset?.Invoke(this); });
         }
 
         public void OnEnable()
         {
             if (_initialized)
-                _currentTimer = _timer.StartTimer(_lifeTime, SendToPool);
+                _currentTimer = _timer.StartTimer(_lifeTime, () => { Reset(); OnReset?.Invoke(this); });
         }
 
         public void Update() => _movement.Move(Vector2.right);
@@ -55,12 +60,11 @@ namespace KingOfGuns.Core.Entities
             if (collider.GetComponent<Stage>() != null)
                 return;
 
-            Reload();
+            Reset();
+            OnReset?.Invoke(this);
         }
 
-        private void SendToPool() => _pool.Enqueue(this);
-
-        public void Reload()
+        public void Reset()
         {
             if (_currentTimer == null)
                 return;
@@ -68,7 +72,7 @@ namespace KingOfGuns.Core.Entities
             _timer.StopTimer(_currentTimer);
             _currentTimer = null;
             _trailRenderer.Clear();
-            SendToPool();
+            _pool.Enqueue(this);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace KingOfGuns.Core.StageSystem
 
             if (_currentStage is not null)
             {
-                _currentStage.Reload();
+                _currentStage.Reset();
                 _currentStage.Disable();
             }
             

@@ -68,7 +68,7 @@ namespace KingOfGuns.Core.Guns
 
         public void Reset()
         {
-            _currentGun.InstantReload(_currentGun.MaxAmmo);
+            _currentGun.Reset();
             _reloadText.SetActive(false);
             _ammoUI.ShowAmmo(_currentGun.MaxAmmo);
         }
