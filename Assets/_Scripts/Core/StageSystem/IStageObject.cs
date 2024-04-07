@@ -4,6 +4,6 @@ namespace KingOfGuns.Core.StageSystem
     {
         void Enable();
         void Disable();
-        void Reload();
+        void Reset();
     }
 }

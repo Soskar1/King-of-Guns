@@ -7,6 +7,7 @@ namespace KingOfGuns.Core.StageSystem
     public class Level : MonoBehaviour
     {
         [SerializeField] private Stage _startStage;
+        [SerializeField] private Transform _playerDefaultPosition;
 
         private Player _player;
         private Camera _camera;
@@ -23,8 +24,6 @@ namespace KingOfGuns.Core.StageSystem
 
             foreach (Stage stage in _stages)
                 stage.OnStageEnter += ActivateStage;
-
-            LoadSaveFile();
         }
 
         public Stage GetStage(int id)
@@ -45,26 +44,29 @@ namespace KingOfGuns.Core.StageSystem
             SaveData saveData = _saveService.LoadFromJson();
             Stage stage = _startStage;
             
-            if (saveData is not null)
+            _player.Reset();
+            if (saveData != null)
             {
                 stage = GetStage(saveData.stageID);
-                _player.Reset();
                 _player.transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
-                MoveCamera(stage);
             }
+            else
+            {
+                _player.transform.position = _playerDefaultPosition.position;
+            }    
 
             ActivateStage(stage);
         }
 
         private void ActivateStage(Stage stage)
         {
-            if (stage is null)
+            if (stage == null)
             {
                 Debug.LogWarning("Provided stage is null. Ignoring transition");
                 return;
             }
 
-            if (_currentStage is not null)
+            if (_currentStage != null)
             {
                 _currentStage.Reset();
                 _currentStage.Disable();

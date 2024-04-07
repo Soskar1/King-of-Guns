@@ -28,6 +28,6 @@ namespace KingOfGuns.Core.Collectibles
             _currentTimer = _timer.StartTimer(_deactivatedStateTimer, Enable);
         }
 
-        public void Reload() { }
+        public void Reset() { }
     }
 }

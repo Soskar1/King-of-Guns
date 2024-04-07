@@ -12,7 +12,7 @@ namespace KingOfGuns.Core.SaveSystem
 
         public void Disable() => _canSave = false;
         public void Enable() => _canSave = true;
-        public void Reload() { }
+        public void Reset() { }
 
         public void OnTriggerEnter2D(Collider2D collision)
         {

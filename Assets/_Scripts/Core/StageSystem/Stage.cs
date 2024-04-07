@@ -35,7 +35,7 @@ namespace KingOfGuns.Core.StageSystem
             _isActive = false;
         }
 
-        public void Reset() => _stageObjects.ForEach(_x => _x.Reload());
+        public void Reset() => _stageObjects.ForEach(_x => _x.Reset());
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

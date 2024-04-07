@@ -6,10 +6,10 @@ using KingOfGuns.Core.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace KingOfGuns.Core
+namespace KingOfGuns.Core.Flow
 {
     [RequireComponent(typeof(Level))]
-    public class Bootstrap : MonoBehaviour
+    public class LevelBootstrap : MonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] private Player _playerPrefab;
