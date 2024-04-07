@@ -17,6 +17,8 @@ namespace KingOfGuns.Core.StageSystem
         private Stage[] _stages;
         private Stage _currentStage;
 
+        private static bool _loadSave = false;
+
         private void Awake()
         {
             _camera = Camera.main;
@@ -31,6 +33,12 @@ namespace KingOfGuns.Core.StageSystem
 
             foreach (Stage stage in _stages)
                 stage.OnStageEnter += ActivateStage;
+
+            if (_loadSave)
+            {
+                LoadSaveFile();
+                _loadSave = false;
+            }
         }
 
         public Stage GetStage(int id)
@@ -56,8 +64,9 @@ namespace KingOfGuns.Core.StageSystem
             {
                 if (saveData.worldName != _worldName)
                 {
-                    Debug.Log($"Activating {saveData.worldName} scene. TODO: make transition to the saved stage");
+                    _loadSave = true;
                     SceneManager.LoadScene(saveData.worldName);
+                    return;
                 }
 
                 stage = GetStage(saveData.stageID);
