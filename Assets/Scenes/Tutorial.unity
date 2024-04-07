@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _level: {fileID: 1241911448}
-  _stageToSave: {fileID: 989702877}
+  _stageToSave: {fileID: 0}
 --- !u!61 &553285912
 BoxCollider2D:
   m_ObjectHideFlags: 0

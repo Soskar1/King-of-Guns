@@ -7,8 +7,10 @@ namespace KingOfGuns.Core.SaveSystem
     public class Checkpoint : MonoBehaviour, IStageObject
     {
         [SerializeField] private Level _level;
-        [SerializeField] private Stage _stageToSave;
+        private Stage _stageToSave;
         private bool _canSave = false;
+
+        private void Awake() => _stageToSave = GetComponentInParent<Stage>();
 
         public void Disable() => _canSave = false;
         public void Enable() => _canSave = true;

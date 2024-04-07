@@ -1,6 +1,7 @@
 using UnityEngine;
 using KingOfGuns.Core.SaveSystem;
 using KingOfGuns.Core.Entities;
+using UnityEngine.SceneManagement;
 
 namespace KingOfGuns.Core.StageSystem
 {
@@ -8,6 +9,7 @@ namespace KingOfGuns.Core.StageSystem
     {
         [SerializeField] private Stage _startStage;
         [SerializeField] private Transform _playerDefaultPosition;
+        private string _worldName;
 
         private Player _player;
         private Camera _camera;
@@ -15,12 +17,17 @@ namespace KingOfGuns.Core.StageSystem
         private Stage[] _stages;
         private Stage _currentStage;
 
+        private void Awake()
+        {
+            _camera = Camera.main;
+            _worldName = SceneManager.GetActiveScene().name;
+        }
+
         public void Initialize(Stage[] stages, SaveService saveService, Player player)
         {
             _stages = stages;
             _saveService = saveService;
             _player = player;
-            _camera = Camera.main;
 
             foreach (Stage stage in _stages)
                 stage.OnStageEnter += ActivateStage;
@@ -37,7 +44,7 @@ namespace KingOfGuns.Core.StageSystem
             return _stages[id];
         }
 
-        public void Save(int stageID) => _saveService.SaveToJson(_player.transform, stageID);
+        public void Save(int stageID) => _saveService.SaveToJson(_player.transform, stageID, _worldName);
 
         public void LoadSaveFile()
         {
@@ -47,6 +54,12 @@ namespace KingOfGuns.Core.StageSystem
             _player.Reset();
             if (saveData != null)
             {
+                if (saveData.worldName != _worldName)
+                {
+                    Debug.Log($"Activating {saveData.worldName} scene. TODO: make transition to the saved stage");
+                    SceneManager.LoadScene(saveData.worldName);
+                }
+
                 stage = GetStage(saveData.stageID);
                 _player.transform.position = new Vector2(saveData.worldPositionX, saveData.worldPositionY);
             }

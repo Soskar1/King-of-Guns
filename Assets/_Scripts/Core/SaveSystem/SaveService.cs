@@ -7,8 +7,8 @@ namespace KingOfGuns.Core.SaveSystem
 {
     public class SaveService
     {
-        private string _fileName;
-        private string _saveFileLocation;
+        private readonly string _fileName;
+        private readonly string _saveFileLocation;
 
         public SaveService(string fileName, string saveFileLocation)
         {
@@ -20,9 +20,9 @@ namespace KingOfGuns.Core.SaveSystem
                 _fileName += ".json";
         }
 
-        public void SaveToJson(Transform player, int stageID)
+        public void SaveToJson(Transform player, int stageID, string worldName)
         {
-            SaveData saveData = new SaveData(player.position, stageID);
+            SaveData saveData = new SaveData(player.position, stageID, worldName);
 
             string fullPath = Path.Combine(_saveFileLocation, _fileName);
             string json = JsonUtility.ToJson(saveData);

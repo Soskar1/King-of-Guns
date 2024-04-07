@@ -7,10 +7,14 @@ namespace KingOfGuns.Core.SaveSystem
     public class SaveZone : MonoBehaviour
     {
         [SerializeField] private Level _level;
-        [SerializeField] private Stage _stageToSave;
+        private Stage _stageToSave;
         private BoxCollider2D _collider;
 
-        private void Awake() => _collider = GetComponent<BoxCollider2D>();
+        private void Awake()
+        {
+            _collider = GetComponent<BoxCollider2D>();
+            _stageToSave = GetComponentInParent<Stage>();
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
